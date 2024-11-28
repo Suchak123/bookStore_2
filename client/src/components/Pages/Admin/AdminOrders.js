@@ -73,10 +73,10 @@ const AdminOrders = () => {
             </h1>
             <div className="overflow-x-auto">
               {orders?.map((o, i) => (
-                <div className="border-b border-pink-900 mb-6" key={o._id}>
+                <div className="border-b border-sky-900 mb-6" key={o._id}>
                   <table className="w-full table-auto">
                     <thead>
-                      <tr className="bg-pink-900 text-white">
+                      <tr className="bg-blue-900 text-white">
                         <th className="sm:p-2 p-1">Order ID</th>
                         <th className="sm:p-2 p-1">Status</th>
                         <th className="sm:p-2 py-1">Buyer</th>
@@ -88,7 +88,7 @@ const AdminOrders = () => {
                     <tbody>
                       <tr className="text-center">
                         <td
-                          className="sm:p-2 p-1 cursor-pointer text-pink-800 underline"
+                          className="sm:p-2 p-1 cursor-pointer text-blue-800 underline"
                           onClick={() => copyToClipboard(o._id)}
                         >
                           {o._id}

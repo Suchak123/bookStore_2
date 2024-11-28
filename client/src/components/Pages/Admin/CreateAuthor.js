@@ -93,7 +93,7 @@ const CreateAuthor = () => {
             <AdminMenu />
           </div>
           <div className="md:ml-10 mt-10 col-span-12 md:col-span-9">
-            <h1 className="text-pink-800 text-3xl mb-5">Manage Authors</h1>
+            <h1 className="text-blue-800 text-3xl mb-5">Manage Authors</h1>
             <div className="p-3">
               <AuthorForm
                 handleSubmit={handleSubmit}
@@ -104,7 +104,7 @@ const CreateAuthor = () => {
             <div className="w-full">
               <table className="w-full rounded-lg">
                 <thead>
-                  <tr className="bg-pink-800 text-white rounded-lg">
+                  <tr className="bg-blue-800 text-white rounded-lg">
                     <th className="p-2 text-center rounded-tl-lg">S.No.</th>
                     <th className="p-2 text-center ">Name</th>
                     <th className="p-2 text-center rounded-tr-lg">Actions</th>
@@ -119,7 +119,7 @@ const CreateAuthor = () => {
                       <td className="p-2 text-center">{author.name}</td>
                       <td className="p-2 flex items-center justify-center md:gap-6">
                         <button
-                          className="bg-pink-800 hover:bg-pink-900 text-white font-semibold py-1 px-3 rounded mr-2"
+                          className="bg-sky-800 hover:bg-sky-900 text-white font-semibold py-1 px-3 rounded mr-2"
                           onClick={() => {
                             setVisible(true);
                             setUpdatedName(author.name);
@@ -129,7 +129,7 @@ const CreateAuthor = () => {
                           Edit
                         </button>
                         <button
-                          className="bg-pink-800 hover:bg-pink-900 text-white font-semibold py-1 px-3 rounded"
+                          className="bg-sky-800 hover:bg-sky-900 text-white font-semibold py-1 px-3 rounded"
                           onClick={() => handleDelete(author._id)}
                         >
                           Delete

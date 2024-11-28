@@ -59,7 +59,7 @@ const Forget = () => {
               <div>
                 <button
                   type="submit"
-                  className=" text-white px-4 py-2 rounded-md hover:bg-pink-800 w-full"
+                  className=" text-white px-4 py-2 rounded-md hover:bg-blue-800 w-full"
                 >
                   Send Reset Email
                 </button>
@@ -67,7 +67,7 @@ const Forget = () => {
             </form>
             <div className="mt-2 flex items-center justify-end">
               <Link to="/login" className=" inline-block">
-                <button className="py-2 px-4 text-white rounded-md hover:bg-pink-800">
+                <button className="py-2 px-4 text-white rounded-md hover:bg-blue-800">
                   Login?
                 </button>
               </Link>

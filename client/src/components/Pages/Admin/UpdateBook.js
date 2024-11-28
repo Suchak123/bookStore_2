@@ -125,13 +125,13 @@ const UpdateBook = () => {
             <AdminMenu />
           </div>
           <div className="md:ml-10 col-span-12 md:col-span-9">
-            <h1 className="text-center text-pink-800 text-3xl my-5 font-bold">
+            <h1 className="text-center text-blue-800 text-3xl my-5 font-bold">
               Update Book
             </h1>
             <div className="m-1 w-75">
               <div className="mb-3">
                 <select
-                  className="form-select mb-3 w-full rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2"
+                  className="form-select mb-3 w-full rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2"
                   onChange={(e) => setGenre(e.target.value)}
                   value={genre}
                 >
@@ -185,7 +185,7 @@ const UpdateBook = () => {
                   type="text"
                   value={name}
                   placeholder="Write a name"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -194,7 +194,7 @@ const UpdateBook = () => {
                   type="text"
                   value={description}
                   placeholder="Write a description"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
@@ -203,7 +203,7 @@ const UpdateBook = () => {
                   type="number"
                   value={price}
                   placeholder="Write a Price"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
@@ -212,7 +212,7 @@ const UpdateBook = () => {
                   type="number"
                   value={quantity}
                   placeholder="Enter amount in stock"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>

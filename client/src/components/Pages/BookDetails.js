@@ -98,10 +98,10 @@ const BookDetails = () => {
       <button className="back-button" onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
-      <div className="container my-10 w-[70vw] mx-auto border-b border-pink-900 pb-6">
+      <div className="container my-10 w-[70vw] mx-auto border-b border-sky-900 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <img
@@ -112,13 +112,13 @@ const BookDetails = () => {
           </div>
           <div className="card">
             <div className="card-body">
-              <h2 className="bona md:text-5xl text-3xl card-title text-center mb-10  text-pink-800">
+              <h2 className="bona md:text-5xl text-3xl card-title text-center mb-10  text-blue-800">
                 {book.name}
               </h2>
-              <div className="title-price flex justify-around border-b border-pink-900 pb-3">
+              <div className="title-price flex justify-around border-b border-blue-900 pb-3">
                 <div className="author-genre">
                   {book.author && (
-                    <p className="md:text-2xl text-xl bona text-pink-900 mb-5 hover:text-pink-600">
+                    <p className="md:text-2xl text-xl bona text-blue-900 mb-5 hover:text-sky-600">
                       <span className="londrina-color">Author:</span>{" "}
                       <Link to={`/author/${book.author.slug}`}>
                         {book.author.name}
@@ -126,7 +126,7 @@ const BookDetails = () => {
                     </p>
                   )}
                   {book.genre && (
-                    <p className="md:text-2xl text-xl bona text-pink-900 hover:text-pink-600">
+                    <p className="md:text-2xl text-xl bona text-blue-900 hover:text-sky-600">
                       <span className="londrina-color">Genre:</span>{" "}
                       <Link to={`/genre/${book.genre.slug}`}>
                         {book.genre.name}
@@ -147,14 +147,14 @@ const BookDetails = () => {
               </p>
               <div className="buttons flex md:flex-row flex-col justify-end md:gap-4 gap-1 px-4 text-lg my-4">
                 <button
-                  className="bg-pink-800 text-white px-4 py-2 mb-2 rounded-md"
+                  className="bg-blue-800 text-white px-4 py-2 mb-2 rounded-md"
                   onClick={handleAddToCart}
                 >
                   <FontAwesomeIcon icon={faCartPlus} />
                   &nbsp; Add to Cart
                 </button>
                 <button
-                  className="bg-pink-800 text-white px-4 py-2 mb-2 rounded-md"
+                  className="bg-blue-800 text-white px-4 py-2 mb-2 rounded-md"
                   onClick={handleAddToWishlist}
                 >
                   <FontAwesomeIcon icon={faHeart} /> &nbsp;Add to Wishlist
@@ -167,7 +167,7 @@ const BookDetails = () => {
       <div className="container mt-4 my-10 w-[70vw] mx-auto">
         <h1 className="londrina-color text-3xl text-center">Similar Books</h1>
         {relatedBooks.length < 1 && (
-          <h3 className="text-xl font-serif text-center text-pink-600">
+          <h3 className="text-xl font-serif text-center text-blue-600">
             No Similar Books Found
           </h3>
         )}

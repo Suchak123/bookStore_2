@@ -24,7 +24,7 @@ const Spinner = ({ path = "login" }) => {
         className="flex justify-center items-center"
         style={{
           height: "100vh",
-          color: "maroon",
+          color: "sky",
           fontSize: "1.5rem",
         }}
       >

@@ -121,7 +121,7 @@ const Profile = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-pink-800 hover:bg-pink-900 text-white font-semibold py-2 px-4 rounded-lg"
+                  className="bg-sky-800 hover:bg-sky-900 text-white font-semibold py-2 px-4 rounded-lg"
                 >
                   UPDATE
                 </button>

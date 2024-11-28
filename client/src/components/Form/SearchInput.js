@@ -39,7 +39,7 @@ const SearchInput = () => {
           type="submit"
           style={{
             padding: "8px 10px",
-            backgroundColor: "#ac3b61",
+            backgroundColor: "#004480",
             fontSize: "14px",
             borderRadius: "10px",
           }}

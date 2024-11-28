@@ -17,7 +17,7 @@ const UserDashboard = () => {
       <button onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
       <div className="container mx-auto my-3 px-3">
@@ -30,7 +30,7 @@ const UserDashboard = () => {
             <div className="bg-white shadow-md p-4 rounded-md">
               <div>
                 <h1
-                  className="mb-3 text-pink-800 font-bold text-4xl text-center"
+                  className="mb-3 text-sky-800 font-bold text-4xl text-center"
                   style={{
                     fontFamily: "sans-serif",
                   }}
@@ -38,7 +38,7 @@ const UserDashboard = () => {
                   Hello {auth?.user?.username}!
                 </h1>
                 <h5
-                  className="text-pink-800 text-xl font-medium text-center"
+                  className="text-sky-800 text-xl font-medium text-center"
                   style={{
                     fontFamily: "Poppins, sans-serif",
                   }}

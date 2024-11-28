@@ -57,7 +57,7 @@ const MyOrders = () => {
               >
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-pink-900 text-white">
+                    <tr className="bg-blue-900 text-white">
                       <th className="hidden sm:block sm:p-2 p-1">SNo.</th>
                       <th className="sm:p-2 p-1">Order ID</th>
                       <th className="sm:p-2 p-1">Status</th>
@@ -72,7 +72,7 @@ const MyOrders = () => {
                         {index + 1}
                       </td>
                       <td
-                        className="sm:p-2 p-1 cursor-pointer text-pink-800 underline"
+                        className="sm:p-2 p-1 cursor-pointer text-blue-800 underline"
                         onClick={() => copyToClipboard(order._id)}
                       >
                         {order._id}

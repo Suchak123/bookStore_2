@@ -53,7 +53,7 @@ const Wishlist = () => {
       <button className="m-4" onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
       <div className="container mx-auto p-4">
@@ -64,7 +64,7 @@ const Wishlist = () => {
             </p>
             <div className="mb-5 genres w-[60vw] mx-auto flex flex-col justify-center items-center">
               <img src={BookShelfImg} />
-              <button className="text-white bg-pink-800 hover:bg-pink-900 md:text-xl text-lg md:p-5 p-1 rounded-lg font-semibold">
+              <button className="text-white bg-blue-800 hover:bg-blue-900 md:text-xl text-lg md:p-5 p-1 rounded-lg font-semibold">
                 <Link to={"/AllBooks"}>Browse Our Selection of Books</Link>
               </button>
             </div>
@@ -78,7 +78,7 @@ const Wishlist = () => {
             {wishlist.map((book) => (
               <div
                 key={book._id}
-                className="flex justify-between border-b border-pink-800 py-2"
+                className="flex justify-between border-b border-blue-800 py-2"
               >
                 <div className="flex gap-10">
                   <div className="py-4 md:px-4 px-1">
@@ -99,14 +99,14 @@ const Wishlist = () => {
                     </div>
                     <div className="flex md:flex-row flex-col gap-4 items-start">
                       <button
-                        className="text-pink-800 hover:text-pink-900 font-semibold flex gap-1 items-center md:text-lg text-base"
+                        className="text-sky-800 hover:text-sky-900 font-semibold flex gap-1 items-center md:text-lg text-base"
                         onClick={() => handleRemoveFromWishlist(book)}
                       >
                         <FontAwesomeIcon icon={faTrash} className="" />
                         Remove
                       </button>
                       <button
-                        className="text-pink-800 hover:text-pink-900 font-semibold flex gap-1 items-center md:text-lg text-base"
+                        className="text-sky-800 hover:text-sky-900 font-semibold flex gap-1 items-center md:text-lg text-base"
                         onClick={() => handleAddToCart(book)}
                       >
                         <FontAwesomeIcon icon={faCartPlus} className="" />

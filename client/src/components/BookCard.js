@@ -74,10 +74,10 @@ const BookCard = ({ book }) => {
         />
       </div>
       <div className="card-body">
-        <h5 className="card-title md:text-2xl text-xl font-bold text-pink-800 mb-2 p-4 h-20">
+        <h5 className="card-title md:text-2xl text-xl font-bold text-blue-800 mb-2 p-4 h-20">
           {book.name}
         </h5>
-        <p className="card-text mb-2 text-lg text-pink-900 px-4">
+        <p className="card-text mb-2 text-lg text-blue-900 px-4">
           {book.author.name}
         </p>
         <p className="price mb-2 font-bold text-xl px-4">$ {book.price}</p>
@@ -85,7 +85,7 @@ const BookCard = ({ book }) => {
           {book.quantity > 0 ? (
             <>
               <button
-                className="bg-pink-800 text-white px-2 py-1 mb-2 rounded-xl"
+                className="bg-sky-800 text-white px-2 py-1 mb-2 rounded-xl"
                 onClick={handleAddToCart}
               >
                 <FontAwesomeIcon icon={faCartPlus} />

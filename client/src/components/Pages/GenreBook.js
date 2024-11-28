@@ -66,11 +66,11 @@ const GenreBook = () => {
       <button className="back-button" onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
       <div className="w-[60vw] mx-auto">
-        <div className="my-10 genres py-5 border-y border-pink-800">
+        <div className="my-10 genres py-5 border-y border-blue-800">
           <h4 className="londrina-color text-5xl"> Genres</h4>
           <h6 className="bona text-xl mb-8">
             Browse Our Extensive Collection of Books Across Different Genres
@@ -87,7 +87,7 @@ const GenreBook = () => {
             <span>{genre?.name}</span>
           )}
         </h3>
-        <h6 className="text-center text-pink-800 font-bold text-lg">
+        <h6 className="text-center text-blue-800 font-bold text-lg">
           {books.length === 0 || books.length === 1
             ? `${books.length} book found`
             : `${books.length} books found`}
@@ -109,7 +109,7 @@ const GenreBook = () => {
         <div className="flex justify-center mt-5">
           {books && books.length < total && (
             <button
-              className="md-rounded btn btn-primary bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-md"
+              className="md-rounded btn btn-primary bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md"
               onClick={() => setPage(page + 1)}
             >
               {loading ? "Loading ..." : "Load More"}

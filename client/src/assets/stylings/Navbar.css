@@ -1,5 +1,5 @@
 nav {
-  background-color: #eee2dc;
+  background-color: #dce4ee9a;
   box-shadow: 0 8px 6px -6px gainsboro;
   width: 100%;
   position: sticky;
@@ -12,7 +12,7 @@ nav {
 }
 
 .mobile-nav {
-  background-color: #eee2dc;
+  background-color: #dce4ee9a;
   box-shadow: 0 8px 6px -6px gainsboro;
   width: 100%;
   @media screen and (min-width: 768px) {
@@ -25,7 +25,7 @@ nav {
   overflow-y: auto;
   overflow-x: hidden;
   .border-b-pink-900 {
-    border-bottom: 2px solid #d45392; /* Change the color code to match pink-900 */
+  border-bottom: 2px solid #5357d483; 
   }
 }
 
@@ -35,11 +35,14 @@ nav {
 }
 
 .dropdown-menu::-webkit-scrollbar-track {
-  background: #eee2dc;
+  background: #dce4ee9a;
   border-radius: 100px;
 }
 
 .dropdown-menu::-webkit-scrollbar-thumb {
-  background: #800000;
+  background: #004480;
   border-radius: 100px;
 }
+
+
+

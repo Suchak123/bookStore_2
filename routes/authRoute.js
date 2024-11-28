@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/register", AuthController.registerController);
 
-router.get("/verify", AuthController.userVerifyMail);
+// router.get("/verify", AuthController.userVerifyMail);
 
 router.post("/login", AuthController.loginController);
 

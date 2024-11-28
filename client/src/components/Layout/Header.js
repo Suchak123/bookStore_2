@@ -89,7 +89,7 @@ const Header = () => {
               <div className="nav-links relative ml-4" ref={dropdownRef}>
                 <button
                   onClick={toggleDropdown}
-                  className="text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                  className="text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
                 >
                   Genres &nbsp;
                   {isDropdownOpen ? (
@@ -105,7 +105,7 @@ const Header = () => {
                         <Link
                           key={c.slug}
                           to={`/genre/${c.slug}`}
-                          className="border-b-pink-900 block px-4 py-2 md:text-lg text-sm text-gray-700 hover:bg-gray-100"
+                          className="border-b-sky-900 block px-4 py-2 md:text-lg text-sm text-gray-700 hover:bg-gray-100"
                         >
                           {c.name}
                         </Link>
@@ -117,7 +117,7 @@ const Header = () => {
               <div className="nav-links relative ml-4">
                 <Link
                   to="/all-authors"
-                  className="text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                  className="text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
                 >
                   Authors
                 </Link>
@@ -129,20 +129,20 @@ const Header = () => {
               </div>
               <Link
                 to="/about-us"
-                className="mr-2 text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                className="mr-2 text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
               >
                 About Us
               </Link>
               <Link
                 to="/wishlist"
-                className="mr-2 text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                className="mr-2 text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
               >
                 <FontAwesomeIcon icon={faHeart} title="Wishlist" />
               </Link>
               <Badge count={cart?.length} color="rgb(157 23 77)">
                 <Link
                   to="/cart"
-                  className="mr-2 text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                  className="mr-2 text-blue-800 hover:border-b border-blue-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
                 >
                   <FontAwesomeIcon icon={faCartShopping} title="Cart" />
                 </Link>
@@ -151,7 +151,7 @@ const Header = () => {
               {!auth.user ? (
                 <Link
                   to="/login"
-                  className="text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                  className="text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
                 >
                   <FontAwesomeIcon icon={faUser} title="User Dashboard" />
                 </Link>
@@ -159,7 +159,7 @@ const Header = () => {
                 <div className="relative" ref={userDropdownRef}>
                   <button
                     onClick={toggleUserDropdown}
-                    className="text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                    className="text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
                   >
                     <FontAwesomeIcon icon={faUser} title="User Dashboard" />
                     &nbsp;
@@ -199,7 +199,7 @@ const Header = () => {
         <div className="max-w-7xl mx-auto p-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="hover:border-b border-pink-800 px-3 py-2">
+              <div className="hover:border-b border-blue-800 px-3 py-2">
                 <Link to="/">
                   <img className="block h-16 w-16" src={LogoImg} alt="Logo" />
                 </Link>
@@ -212,7 +212,7 @@ const Header = () => {
 
               <button
                 onClick={toggleMobileMenu}
-                className="mr-2 text-pink-800 hover:border-b border-pink-800 hover:text-pink-950 px-3 py-2 md:text-lg text-sm font-medium"
+                className="mr-2 text-blue-800 hover:border-b border-blue-800 hover:text-blue-950 px-3 py-2 md:text-lg text-sm font-medium"
               >
                 <FontAwesomeIcon icon={faBars} />
               </button>
@@ -223,25 +223,25 @@ const Header = () => {
               <div className="p-4">
                 <Link
                   to="/about-us"
-                  className="block text-pink-800 hover:text-pink-950 py-2 md:text-lg text-sm font-medium"
+                  className="block text-blue-800 hover:text-blue-950 py-2 md:text-lg text-sm font-medium"
                 >
                   About Us
                 </Link>
                 <Link
                   to="/cart"
-                  className="block text-pink-800 hover:text-pink-950 py-2 md:text-lg text-sm font-medium"
+                  className="block text-blue-800 hover:text-blue-950 py-2 md:text-lg text-sm font-medium"
                 >
                   <FontAwesomeIcon icon={faCartShopping} title="Cart" /> Cart
                 </Link>
                 <Link
                   to="/wishlist"
-                  className="block text-pink-800 hover:text-pink-950 py-2 md:text-lg text-sm font-medium"
+                  className="block text-blue-800 hover:text-blue-950 py-2 md:text-lg text-sm font-medium"
                 >
                   <FontAwesomeIcon icon={faHeart} /> Wishlist
                 </Link>
                 <Link
                   to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
-                  className="block text-pink-800 hover:text-pink-950 py-2 md:text-lg text-sm font-medium"
+                  className="block text-blue-800 hover:text-blue-950 py-2 md:text-lg text-sm font-medium"
                 >
                   <FontAwesomeIcon icon={faUser} /> Dashboard
                 </Link>

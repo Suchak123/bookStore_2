@@ -17,7 +17,6 @@ import MysteryImg from "../assets/images/genres/mystery.png";
 import HorrorImg from "../assets/images/genres/horror.png";
 import HistoricalFicImg from "../assets/images/genres/historical fic.png";
 import RomanceImg from "../assets/images/genres/romance.png";
-import LgbtImg from "../assets/images/genres/lgbt.png";
 import GraphicNovelImg from "../assets/images/genres/graphic novel.png";
 import ShortStoryImg from "../assets/images/genres/shortstory.png";
 import YoungAdultsImg from "../assets/images/genres/young adults.png";
@@ -35,19 +34,21 @@ import SpiritualityImg from "../assets/images/genres/sprituality.png";
 import PhilosophyImg from "../assets/images/genres/philosophy.png";
 import ParentingImg from "../assets/images/genres/parents-preparing-cute-daughter.png";
 import ScienceImg from "../assets/images/genres/science-lab-objects_23-214848831.png";
+import DramaImg from "../assets/images/genres/image.png";
+import Thriller from "../assets/images/genres/thriller.jpg";
 
 const Genre = () => {
   const genreImages = {
     Fiction: FictionImg,
     Fantasy: FantasyImg,
-    "Science Fiction": SciFiImg,
+    "Science-Fiction": SciFiImg,
+    Drama: DramaImg,
     Dystopian: DystopianImg,
     "Action & Adventure": ActionImg,
     Mystery: MysteryImg,
     Horror: HorrorImg,
     "Historical Fiction": HistoricalFicImg,
     Romance: RomanceImg,
-    "LGBTQ+": LgbtImg,
     "Graphic Novel": GraphicNovelImg,
     "Short Story": ShortStoryImg,
     "Young Adult": YoungAdultsImg,
@@ -58,13 +59,14 @@ const Genre = () => {
     "Self-help": SelfHelpImg,
     History: HistoryImg,
     Travel: TravelImg,
-    Crime: CrimeImg,
+    "True Crime": CrimeImg,
     Humor: HumorImg,
     "Guide and How-to ": GuideImg,
     "Religion & Spirituality": SpiritualityImg,
     "Humanities & Social Sciences": PhilosophyImg,
     "Parenting & Families": ParentingImg,
     "Science & Technology": ScienceImg,
+    "Thriller & Suspense": Thriller,
   };
 
   const [startIndex, setStartIndex] = useState(0);
@@ -74,7 +76,6 @@ const Genre = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      // Adjust items per page based on screen width
       const screenWidth = window.innerWidth;
       if (screenWidth < 640) {
         setItemsPerPage(2);
@@ -87,11 +88,9 @@ const Genre = () => {
       }
     };
 
-    // Call handleResize initially and add event listener for window resize
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on component unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -112,7 +111,7 @@ const Genre = () => {
       <div className="genre-list flex gap-5 items-center justify-center">
         {slicedGenres.map((c) => (
           <div
-            className="genre flex flex-col  hover:text-pink-800"
+            className="genre flex flex-col  hover:text-blue-800"
             key={c.name}
           >
             <Link to={`/genre/${c.name.toLowerCase().replace(/\s+/g, "-")}`}>

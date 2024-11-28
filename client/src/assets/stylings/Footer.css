@@ -1,13 +1,13 @@
 .rune-footer {
   height: 300px;
   width: 100%;
-  background-color: #eee2dc;
-  color: #800000;
+  background-color: #dce4ee9a;
+  color: #004480;
 
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    background-color: #eee2dc;
+    background-color: #dce4ee9a;
     padding-top: 20px;
     height: auto;
   }

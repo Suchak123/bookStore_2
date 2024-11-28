@@ -47,7 +47,7 @@ const Books = () => {
             <AdminMenu />
           </div>
           <div className="md:ml-10 col-span-12 md:col-span-9">
-            <h1 className="text-center text-pink-800 text-3xl my-5 font-bold">
+            <h1 className="text-center text-blue-800 text-3xl my-5 font-bold">
               All Books List
             </h1>
             {loading ? (
@@ -69,7 +69,7 @@ const Books = () => {
                         alt={p.name}
                       />
                       <div className="px-6 py-4">
-                        <h5 className="text-pink-800 font-bold text-xl mb-2">
+                        <h5 className="text-blue-800 font-bold text-xl mb-2">
                           {p.name}
                         </h5>
                         <p
@@ -93,14 +93,14 @@ const Books = () => {
               <button
                 onClick={handlePrevPage}
                 disabled={page === 1}
-                className="bg-pink-800 text-white py-2 px-4 rounded-md mr-2"
+                className="bg-blue-800 text-white py-2 px-4 rounded-md mr-2"
               >
                 Prev
               </button>
               <button
                 onClick={handleNextPage}
                 disabled={page === totalPages}
-                className="bg-pink-800 text-white py-2 px-4 rounded-md"
+                className="bg-blue-800 text-white py-2 px-4 rounded-md"
               >
                 Next
               </button>

@@ -8,86 +8,86 @@ import dotenv from "dotenv";
 dotenv.config();
 
 //user email verification
-const sendUserVerifyEmail = async (username, email, user_id) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: "starshollowb@gmail.com",
-        pass: `${process.env.SMTP_PASSWORD}`,
-      },
-    });
+// const sendUserVerifyEmail = async (username, email, user_id) => {
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       host: "smtp.gmail.com",
+//       port: 587,
+//       secure: false,
+//       requireTLS: true,
+//       auth: {
+//         user: "starshollowb@gmail.com",
+//         pass: `${process.env.SMTP_PASSWORD}`,
+//       },
+//     });
 
-    const mailOptions = {
-      from: "starshollowb@gmail.com",
-      to: email,
-      subject: "Verify your stars hollow bookstore account",
-      html: `<p> Hi ${username},Please click <a href="${process.env.REACT_APP_API}/api/v1/auth/verify?id=${user_id}">here</a> to verify your email.</p>`,
-    };
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("email has been sent ", info.response);
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     const mailOptions = {
+//       from: "starshollowb@gmail.com",
+//       to: email,
+//       subject: "Verify your stars hollow bookstore account",
+//       html: `<p> Hi ${username},Please click <a href="${process.env.REACT_APP_API}/api/v1/auth/verify?id=${user_id}">here</a> to verify your email.</p>`,
+//     };
+//     transporter.sendMail(mailOptions, function (error, info) {
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log("email has been sent ", info.response);
+//       }
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-const userVerifyMail = async (req, res) => {
-  try {
-    console.log(req.query);
-    const updateVerifiedUser = await userModel.updateOne(
-      { _id: req.query.id },
-      {
-        $set: {
-          isEmailVerified: 1,
-        },
-      }
-    );
-    console.log(updateVerifiedUser);
-    res.redirect(`${process.env.FRONTEND_URL}/verified-email`);
-  } catch (error) {
-    console.error(error.message);
-  }
-};
+// const userVerifyMail = async (req, res) => {
+//   try {
+//     console.log(req.query);
+//     const updateVerifiedUser = await userModel.updateOne(
+//       { _id: req.query.id },
+//       {
+//         $set: {
+//           isEmailVerified: 1,
+//         },
+//       }
+//     );
+//     console.log(updateVerifiedUser);
+//     res.redirect(`${process.env.FRONTEND_URL}/verified-email`);
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// };
 
-const sendOrderStatusUpdateEmail = async (username, email, orderId, status) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: "starshollowb@gmail.com",
-        pass: `${process.env.SMTP_PASSWORD}`,
-      },
-    });
+// const sendOrderStatusUpdateEmail = async (username, email, orderId, status) => {
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       host: "smtp.gmail.com",
+//       port: 587,
+//       secure: false,
+//       requireTLS: true,
+//       auth: {
+//         user: "starshollowb@gmail.com",
+//         pass: `${process.env.SMTP_PASSWORD}`,
+//       },
+//     });
 
-    const mailOptions = {
-      from: "starshollowb@gmail.com",
-      to: email,
-      subject: `Your order ${orderId} status has been updated`,
-      html: `<p>Hi ${username},</p><p>Your order with ID <strong>${orderId}</strong> status has been updated to <strong>${status}</strong>.</p>`,
-    };
+//     const mailOptions = {
+//       from: "starshollowb@gmail.com",
+//       to: email,
+//       subject: `Your order ${orderId} status has been updated`,
+//       html: `<p>Hi ${username},</p><p>Your order with ID <strong>${orderId}</strong> status has been updated to <strong>${status}</strong>.</p>`,
+//     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Order status update email has been sent: ", info.response);
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     transporter.sendMail(mailOptions, function (error, info) {
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log("Order status update email has been sent: ", info.response);
+//       }
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const sendRestPasswordMail = async (email, token) => {
   try {
@@ -131,6 +131,7 @@ const registerController = async (req, res) => {
       password,
       phoneNumber,
       address,
+      role,
     } = req.body;
     //validations
     if (!username) {
@@ -166,9 +167,10 @@ const registerController = async (req, res) => {
       phoneNumber,
       address,
       password: hashedPassword,
+      role
     }).save();
 
-    await sendUserVerifyEmail(username, email, user._id);
+    // await sendUserVerifyEmail(username, email, user._id);
 
     return res.status(201).send({
       success: true,
@@ -200,14 +202,15 @@ const loginController = async (req, res) => {
       return res.status(401).send({
         success: false,
         message: "Email is not registered",
+        
       });
     }
-    if (user.isEmailVerified !== 1) {
-      return res.status(402).send({
-        success: false,
-        message: "Your email isn't verified",
-      });
-    }
+    // if (user.isEmailVerified !== 1) {
+    //   return res.status(402).send({
+    //     success: false,
+    //     message: "Your email isn't verified",
+    //   });
+    // }
     const match = await comparePassword(password, user.password);
     if (!match) {
       return res.status(403).send({
@@ -464,7 +467,6 @@ export default {
   getOrdersController,
   getAllOrdersController,
   orderStatusController,
-  userVerifyMail,
   forgetLoad,
   resetPassword,
 };

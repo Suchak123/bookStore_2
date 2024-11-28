@@ -7,9 +7,9 @@ const FaqSection = () => {
 
   const faqItems = [
     {
-      question: "Where is Stars Hollow Bookstore located?",
+      question: "Is our Bookstore located physically?",
       answer:
-        "Stars Hollow Bookstore is a beloved establishment situated in the charming small town of Stars Hollow, located in New Milford, Connecticut.",
+        "Our Bookstore is available only online, but books are delivered physically at your location",
     },
     {
       question: "How do I place an order?",
@@ -19,13 +19,9 @@ const FaqSection = () => {
     {
       question: "Where do you deliver?",
       answer:
-        "Currently, we deliver throughout Connecticut and most major cities in the USA. If you have any specific location inquiries, please contact our customer service for more details.",
+        "Currently, we deliver throughout Kathmandu valley .If you have any specific location inquiries, please contact our customer service for more details.",
     },
-    {
-      question: "Do you offer gift wrapping services?",
-      answer:
-        "Absolutely! We love helping you give the perfect gift. On the cart page, you'll find an option in your order summary. Simply click the checkbox next to the gift icon to add gift wrapping for a small additional fee. We use high-quality wrapping paper to make your gift special.",
-    },
+   
     {
       question: "Can I request a specific delivery date and time?",
       answer:
@@ -39,7 +35,7 @@ const FaqSection = () => {
           <a
             href="https://discord.com/invite/starshollow"
             target="_blank"
-            className="underline text-pink-800"
+            className="underline text-blue-800"
           >
             here
           </a>
@@ -55,7 +51,7 @@ const FaqSection = () => {
           send an email to{" "}
           <a
             href="mailto:starshollowb@gmail.com"
-            className="text-semibold text-pink-800"
+            className="text-semibold text-blue-800"
           >
             starshollowb@gmail.com.
           </a>
@@ -76,26 +72,26 @@ const FaqSection = () => {
   return (
     <div className="my-24 flex flex-col md:items-center items-stretch">
       <h2 className="londrina-color md:text-4xl text-2xl font-bold mb-6 text-center">
-        StarsHollow FAQs
+        FAQs
       </h2>
       <div className="md:w-[555px] w-auto">
         {faqItems.map((item, index) => (
-          <div key={index} className="py-4 px-3 mb-2 border-b border-pink-900">
+          <div key={index} className="py-4 px-3 mb-2 border-b border-blue-900">
             <div
               className="flex items-center justify-between cursor-pointer"
               onClick={() => toggleDropdown(index)}
             >
               <div
                 className={`font-bold md:text-lg text-base py-3 ${
-                  selected === index ? "text-pink-900" : "text-black"
+                  selected === index ? "text-blue-900" : "text-black"
                 }`}
               >
                 {item.question}
               </div>
               {selected === index ? (
-                <FontAwesomeIcon icon={faAngleUp} className="text-pink-800" />
+                <FontAwesomeIcon icon={faAngleUp} className="text-blue-800" />
               ) : (
-                <FontAwesomeIcon icon={faAngleDown} className="text-pink-800" />
+                <FontAwesomeIcon icon={faAngleDown} className="text-blue-800" />
               )}
             </div>
             <div

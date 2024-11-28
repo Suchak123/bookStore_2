@@ -12,7 +12,7 @@
 
 .londrina-color {
   font-family: "Londrina Solid";
-  color: #ac3b61;
+  color: #004480;
 }
 .londrina {
   font-family: "Londrina Solid";
@@ -32,7 +32,7 @@
     rgba(0, 0, 0, 0.9),
     rgba(101, 0, 79, 0.01)
   );
-  background-color: #ac3b61;
+  background-color: #663bac;
   background-size: cover;
   background-position: center;
 }
@@ -104,7 +104,7 @@
 .downloads-container {
   padding-top: 10px;
   height: 106px;
-  background-color: #ac3b61;
+  background-color: #663bac;
   z-index: 1;
   font-family: "Londrina Solid";
 

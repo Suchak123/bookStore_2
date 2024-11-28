@@ -80,7 +80,7 @@ const AuthorBook = () => {
             <span>{author?.name}</span>
           )}
         </h3>
-        <h6 className="text-center text-pink-800 font-bold text-lg">
+        <h6 className="text-center text-blue-800 font-bold text-lg">
           {books.length === 0 || books.length === 1
             ? `${books.length} book found`
             : `${books.length} books found`}
@@ -102,7 +102,7 @@ const AuthorBook = () => {
         <div className="flex justify-center mt-5">
           {books && books.length < total && (
             <button
-              className="md-rounded btn btn-primary bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-md"
+              className="md-rounded btn btn-primary bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md"
               onClick={() => setPage(page + 1)}
             >
               {loading ? "Loading ..." : "Load More"}

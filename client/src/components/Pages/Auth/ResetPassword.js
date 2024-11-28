@@ -117,7 +117,7 @@ const ResetPassword = () => {
               <div>
                 <button
                   type="submit"
-                  className=" text-white px-4 py-2 rounded-md hover:bg-pink-800 w-full"
+                  className=" text-white px-4 py-2 rounded-md hover:bg-sky-800 w-full"
                 >
                   Reset Password
                 </button>
@@ -128,7 +128,7 @@ const ResetPassword = () => {
                     </h5>
                     <Link to="/register" className=" inline-block">
                       <button
-                        className="py-2 px-4 text-white rounded-md hover:bg-pink-900"
+                        className="py-2 px-4 text-white rounded-md hover:bg-sky-900"
                         style={{ borderRadius: "8px" }}
                       >
                         Register

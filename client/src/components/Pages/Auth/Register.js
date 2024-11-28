@@ -207,7 +207,7 @@ const UserRegistration = () => {
               <div>
                 <button
                   type="submit"
-                  className=" text-white px-4 py-2 rounded-md hover:bg-pink-900 w-full"
+                  className=" text-white px-4 py-2 rounded-md hover:bg-sky-900 w-full"
                 >
                   Sign Up
                 </button>
@@ -215,7 +215,7 @@ const UserRegistration = () => {
                   <h5 className="inline-block mr-2 px-4">Already a member?</h5>
                   <Link to="/login" className=" inline-block">
                     <button
-                      className="py-2 px-4 text-white rounded-md hover:bg-pink-900"
+                      className="py-2 px-4 text-white rounded-md hover:bg-sky-900"
                       style={{ borderRadius: "8px" }}
                     >
                       Login

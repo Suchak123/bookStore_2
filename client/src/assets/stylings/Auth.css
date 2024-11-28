@@ -1,11 +1,11 @@
 .signup {
-  color: #800000;
+  color: #004d80;
 }
 .register-form {
-  background-color: #eee2dc;
-  color: #800000;
+  background-color: #dce7ee;
+  color: #004d80;
 
   button {
-    background-color: #800000;
+    background-color: #004480;
   }
 }

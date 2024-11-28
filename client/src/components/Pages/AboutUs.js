@@ -18,7 +18,7 @@ const AboutUs = () => {
       <button className="back-button" onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
       <div className="container mx-auto">
@@ -28,17 +28,16 @@ const AboutUs = () => {
         <div className="mb-4 pb-10">
           <div className="flex md:flex-row flex-col md:justify-center gap-10  items-center">
             <div>
-              <h2 className="bona text-2xl font-bold text-pink-800 mb-4">
+              <h2 className="bona text-2xl font-bold text-blue-800 mb-4">
                 Our Story
               </h2>
               <p className="text-lg leading-7 md:w-3/5 w-full">
-                Nestled in the heart of the charming small town of Stars Hollow
-                in New Milford, Connecticut, Stars Hollow Bookstore has been a
-                beloved community hub for over 40 years. Since our doors first
+                Nestled in the heart of the charming Kathmandu valley,
+                our Bookstore has been a
+                beloved online hub for mamny years. Since our website first
                 opened, we've been dedicated to fostering a love for reading and
                 providing a warm, welcoming space for book lovers of all ages.
-                Stars Hollow Bookstore was founded over four decades ago with a
-                simple mission: to share the joy of reading with our community.
+                
               </p>
             </div>
 
@@ -47,9 +46,9 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-        <div className="flex  md:flex-row flex-col gap-10 justify-between border-y border-pink-800 py-10">
+        <div className="flex  md:flex-row flex-col gap-10 justify-between border-y border-blue-800 py-10">
           <div className="md:w-2/5 w-full">
-            <h2 className="bona text-2xl font-bold text-pink-800 mb-4">
+            <h2 className="bona text-2xl font-bold text-blue-800 mb-4">
               A Beloved Community Hub
             </h2>
             <p className="text-lg leading-7">
@@ -62,21 +61,18 @@ const AboutUs = () => {
             </p>
           </div>
           <div className="md:w-2/5 w-full">
-            <h2 className="bona text-2xl font-bold text-pink-800 mb-4">
+            <h2 className="bona text-2xl font-bold text-blue-800 mb-4">
               Going Online
             </h2>
             <p className="text-lg leading-7">
               In response to the evolving needs of our customers and the
-              changing landscape of the book industry, Stars Hollow Bookstore
-              has recently expanded online. Our new website allows us to reach
-              readers far and wide, offering a curated selection of books,
-              convenient shopping experiences, and a taste of our small-town
-              charm.
+              changing landscape of the book industry, We
+              has recently expanded online with many more technological shifts.
             </p>
           </div>
         </div>
         <div className="mb-8 pt-10">
-          <h2 className="bona text-2xl font-bold text-pink-800 mb-4 text-center">
+          <h2 className="bona text-2xl font-bold text-blue-800 mb-4 text-center">
             Join Our Community
           </h2>
           <div className="flex  md:flex-row flex-col gap-10 items-center justify-between">

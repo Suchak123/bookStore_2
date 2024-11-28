@@ -17,7 +17,7 @@ const CreateBook = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [shipping, setShipping] = useState("");
+  // const [shipping, setShipping] = useState("");
   const [loading, setLoading] = useState(false); // State for loading
 
   // Fetch all genres
@@ -88,10 +88,10 @@ const CreateBook = () => {
             <AdminMenu />
           </div>
           <div className="ml-10 mt-10 col-span-12 md:col-span-9">
-            <h1 className="text-pink-800 text-3xl mb-5">Add Books</h1>
+            <h1 className="text-blue-800 text-3xl mb-5">Add Books</h1>
             <div className="w-full max-w-lg">
               <select
-                className="form-select mb-3 w-full rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2"
+                className="form-select mb-3 w-full rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2"
                 onChange={(e) => setGenre(e.target.value)}
                 value={genre}
               >
@@ -103,7 +103,7 @@ const CreateBook = () => {
                 ))}
               </select>
               <select
-                className="form-select mb-3 w-full rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2"
+                className="form-select mb-3 w-full rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2"
                 onChange={(e) => setAuthorId(e.target.value)}
                 value={authorId}
               >
@@ -117,7 +117,7 @@ const CreateBook = () => {
               <div className="mb-3">
                 <label
                   className="btn btn-primary p-2 w-full rounded-md"
-                  style={{ backgroundColor: "#9D174D", color: "white" }}
+                  style={{ backgroundColor: "#004480", color: "white" }}
                 >
                   {photo ? photo.name : "Upload Photo"}
                   <input
@@ -147,7 +147,7 @@ const CreateBook = () => {
                   type="text"
                   value={name}
                   placeholder="Enter Book Name"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -156,7 +156,7 @@ const CreateBook = () => {
                   type="text"
                   value={description}
                   placeholder="Enter Book Description"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
@@ -165,7 +165,7 @@ const CreateBook = () => {
                   type="number"
                   value={price}
                   placeholder="Enter Book Price"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
@@ -174,7 +174,7 @@ const CreateBook = () => {
                   type="number"
                   value={quantity}
                   placeholder="Enter Quantity"
-                  className="form-control rounded border border-gray-300 hover:border-pink-800 focus:border-pink-800 focus:outline-none p-2 w-full"
+                  className="form-control rounded border border-gray-300 hover:border-sky-800 focus:border-sky-800 focus:outline-none p-2 w-full"
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>
@@ -182,7 +182,7 @@ const CreateBook = () => {
                 <button
                   className="btn btn-primary p-2 w-full rounded-md"
                   onClick={handleCreate}
-                  style={{ backgroundColor: "#9D174D", color: "white" }}
+                  style={{ backgroundColor: "#004480", color: "white" }}
                   disabled={loading}
                 >
                   {loading ? "Creating..." : "Create Book"}

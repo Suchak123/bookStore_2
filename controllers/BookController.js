@@ -3,7 +3,6 @@ import genreModel from "../models/GenreModel.js";
 import AuthorModel from "../models/AuthorModel.js";
 import fs from "fs";
 import slugify from "slugify";
-import mongoose from "mongoose";
 import BookModel from "../models/BookModel.js";
 import braintree from "braintree";
 import OrderModel from "../models/OrderModel.js";
@@ -12,13 +11,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-//payment gateway
-// var gateway = new braintree.BraintreeGateway({
-//   environment: braintree.Environment.Sandbox,
-//   merchantId: process.env.BRAINTREE_MERCHANT_ID,
-//   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-//   privateKey: process.env.BRAINTREE_PRIVATE_KEY,
-// });
+
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 export const createBookController = async (req, res) => {
   try {
@@ -374,7 +373,7 @@ export const getLatestBooks = async (req, res) => {
     // Query the database to fetch the last 4 books
     const latestBooks = await BookModel.find()
       .sort({ createdAt: -1 })
-      .limit(4)
+      .limit(5)
       .populate("author");
 
     res.json({ success: true, books: latestBooks });
@@ -451,68 +450,68 @@ export const getBookQuantities = async (req, res) => {
   }
 };
 
-//payment gateway api
-//token
-// export const braintreeTokenController = async (req, res) => {
-//   try {
-//     gateway.clientToken.generate({}, function (err, response) {
-//       if (err) {
-//         res.status(500).send(err);
-//       } else {
-//         res.send(response);
-//       }
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+// payment gateway api
+// token
+ export const brainTreeTokenController = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(response);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// //payment
-// export const brainTreePaymentController = async (req, res) => {
-//   try {
-//     const { nonce, cart } = req.body;
-//     let total = 0;
-//     let products = [];
+//payment
+export const brainTreePaymentController = async (req, res) => {
+  try {
+    const { nonce, cart } = req.body;
+    let total = 0;
+    let products = [];
 
-//     cart.forEach((item) => {
-//       total += item.price * item.numberOfItems;
-//       products.push({
-//         book: item._id,
-//         quantity: item.numberOfItems,
-//       });
-//     });
+    cart.forEach((item) => {
+      total += item.price * item.numberOfItems;
+      products.push({
+        book: item._id,
+        quantity: item.numberOfItems,
+      });
+    });
 
-//     gateway.transaction.sale(
-//       {
-//         amount: total,
-//         paymentMethodNonce: nonce,
-//         options: {
-//           submitForSettlement: true,
-//         },
-//       },
-//       async function (error, result) {
-//         if (result) {
-//           try {
-//             const order = new OrderModel({
-//               products: products,
-//               payment: result,
-//               buyer: req.user._id,
-//             });
-//             await order.save();
+    gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      async function (error, result) {
+        if (result) {
+          try {
+            const order = new OrderModel({
+              products: products,
+              payment: result,
+              buyer: req.user._id,
+            });
+            await order.save();
 
-//             res.json({ ok: true });
-//           } catch (error) {
-//             console.error(error);
-//             res.status(500).send("Failed to save order");
-//           }
-//         } else {
-//           console.error(error);
-//           res.status(500).send(error.message);
-//         }
-//       }
-//     );
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Server error");
-//   }
-// };
+            res.json({ ok: true });
+          } catch (error) {
+            console.error(error);
+            res.status(500).send("Failed to save order");
+          }
+        } else {
+          console.error(error);
+          res.status(500).send(error.message);
+        }
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+};

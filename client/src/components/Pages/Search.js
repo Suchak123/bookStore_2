@@ -20,11 +20,11 @@ const Search = () => {
       <button className="back-button" onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
       <div className="w-[60vw] mx-auto">
-        <div className="my-10 genres py-5 border-y border-pink-800">
+        <div className="my-10 genres py-5 border-y border-blue-800">
           <h4 className="londrina-color text-5xl"> Genres</h4>
           <h6 className="bona text-xl mb-8">
             Browse Our Extensive Collection of Books Across Different Genres
@@ -34,7 +34,7 @@ const Search = () => {
         <h3 className="text-center londrina-color text-3xl font-semibold my-5">
           Search Results
         </h3>
-        <h6 className="text-center text-pink-800 font-bold text-lg">
+        <h6 className="text-center text-blue-800 font-bold text-lg">
           {values?.results.length < 1
             ? "No books found"
             : `Found: ${values.results.length}`}

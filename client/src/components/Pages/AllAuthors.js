@@ -35,7 +35,7 @@ const AllAuthors = () => {
       <button className="back-button" onClick={goBack}>
         <FontAwesomeIcon
           icon={faCircleLeft}
-          style={{ color: "#800000", height: "40px", margin: "4px" }}
+          style={{ color: "#004480", height: "40px", margin: "4px" }}
         />
       </button>
       <div className="w-[60vw] mx-auto">
@@ -45,7 +45,7 @@ const AllAuthors = () => {
             {authors.map((author, index) => (
               <Link
                 to={`/author/${author.slug}`}
-                className="text-xl font-bold text-pink-800 hover:text-pink-600"
+                className="text-xl font-bold text-blue-800 hover:text-blue-600"
               >
                 <div key={author._id} className="flex flex-col items-center">
                   <img

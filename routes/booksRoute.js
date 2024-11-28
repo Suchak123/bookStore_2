@@ -1,5 +1,5 @@
 import { Router } from "express";
-//import Book from '../models/BookModel.js';
+import Book from '../models/BookModel.js';
 import express from "express";
 
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -20,11 +20,16 @@ import {
   updateBookController,
   bookAuthorController,
   getLatestBooks,
+  brainTreePaymentController,
+  brainTreeTokenController
+  
  
 } from "../controllers/BookController.js";
 import formidable from "express-formidable";
 import route from "color-convert/route.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 const router = express.Router();
 
 // Create book
@@ -94,11 +99,10 @@ router.post("/getQuantities", getBookQuantities);
 //update quantity when users buys
 router.put("/updateStock", bookStockUpdate);
 
-//payments routes
-//token
-// router.get("/braintree/token", braintreeTokenController);
+
+router.get("/braintree/token", brainTreeTokenController);
 
 // //payments
-// router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
 
 export default router;

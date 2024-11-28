@@ -113,7 +113,7 @@ const AllBooksPage = () => {
     <Layout>
       <div className="container mx-auto flex flex-row mt-3">
         <div className="w-[60vw] mx-auto">
-          <div className="my-10 genres py-5 border-y border-pink-800">
+          <div className="my-10 genres py-5 border-y border-blue-800">
             <h4 className="londrina-color text-5xl"> Genres</h4>
             <h6 className="bona text-xl mb-8">
               Browse Our Extensive Collection of Books Across Different Genres
@@ -131,7 +131,7 @@ const AllBooksPage = () => {
           <div className="m-2 p-3 text-center">
             {books && books.length < total && (
               <button
-                className="bg-pink-900 text-white py-2 px-4 rounded-md"
+                className="bg-blue-900 text-white py-2 px-4 rounded-md"
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
