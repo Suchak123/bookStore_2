@@ -1,0 +1,61 @@
+.rune-footer {
+  height: 300px;
+  width: 100%;
+  background-color: #eee2dc;
+  color: #800000;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    background-color: #eee2dc;
+    padding-top: 20px;
+    height: auto;
+  }
+
+  .side-a {
+    width: 386px;
+
+    @media screen and (max-width: 768px) {
+      align-items: center;
+    }
+
+    p {
+      font-family: Helvetica;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .text {
+      @media screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+
+        p {
+          font-family: Helvetica;
+          font-size: 14px;
+          font-weight: 700;
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+
+  .side-b {
+    width: 386px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    @media screen and (max-width: 768px) {
+      align-items: center;
+      justify-content: center;
+      margin-top: 100px;
+    }
+
+    img {
+      height: 40px;
+      width: 40px;
+      margin-left: 16px;
+    }
+  }
+}

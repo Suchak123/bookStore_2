@@ -1,0 +1,45 @@
+nav {
+  background-color: #eee2dc;
+  box-shadow: 0 8px 6px -6px gainsboro;
+  width: 100%;
+  position: sticky;
+}
+
+.desktop-nav {
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+.mobile-nav {
+  background-color: #eee2dc;
+  box-shadow: 0 8px 6px -6px gainsboro;
+  width: 100%;
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+}
+
+.dropdown-menu {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .border-b-pink-900 {
+    border-bottom: 2px solid #d45392; /* Change the color code to match pink-900 */
+  }
+}
+
+.dropdown-menu::-webkit-scrollbar {
+  width: 8px;
+  height: 644px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: #eee2dc;
+  border-radius: 100px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: #800000;
+  border-radius: 100px;
+}
