@@ -5,21 +5,24 @@ import Layout from "../Layout/Layout";
 import { useAuth } from "../../context/auth";
 import { useCart } from "../../context/cart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import calculateReward
+ from "../../utils/calculateReward";
 import {
   faCircleLeft,
   faGift,
   faHeart,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Checkbox } from "antd";
+// import { Checkbox } from "antd";
 import { toast } from "react-toastify";
 import DropIn from "braintree-web-drop-in-react";
 import { useWishlist } from "../../context/wishlist";
+import { connectWallet } from "../../utils/connectWallet";
 
 import BookShelfImg from "../../assets/images/books-bookshelf-isolated-vector.png";
 
 const CartPage = () => {
-  const [auth] = useAuth();
+  const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
   const [productQuantities, setProductQuantities] = useState({});
   const [clientToken, setClientToken] = useState("");
@@ -27,16 +30,74 @@ const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const [checkout, setCheckout] = useState(false);
   const [wishlist, setWishlist] = useWishlist();
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [appliedTokens, setAppliedTokens] = useState(0);
+
 
   const navigate = useNavigate();
+  const applyTokens = (tokens) => {
+    if (tokens <= tokenBalance) {
+      setAppliedTokens(tokens);
+      toast.success(`Applied ${tokens} tokens as a discount!`);
+    } else {
+      toast.error("Insufficient tokens.");
+    }
+  };
 
+  const fetchTokenBalance = async () => {
+    const userAddress = auth?.user?.walletAddress;
+    if (userAddress) {
+      try {
+        const { data } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}`);
+        setTokenBalance(data.balance);
+      } catch (error) {
+        console.error("Error fetching token balance:", error);
+        toast.error("Failed to fetch token balance.");
+      }
+    }
+  };
+
+  const connectUserWallet = async () => {
+      try {
+        const address = await connectWallet(setAuth);
+        toast.success(`Wallet connected:${address}`);
+      } catch (error) {
+        toast.error("Wallet connection failed.");
+      }
+    };
+  
+  
+
+  const handleTokenReward = async () => {
+    const userAddress = auth?.user?.walletAddress;
+  
+    if (!userAddress) {
+      toast.error("Wallet address is not connected. Please connect your wallet.");
+      return;
+    }
+  
+    try {
+      const rewardTokens = calculateReward(cart); // Custom reward logic
+      await axios.post("/api/v1/book/mintTokens", {
+        userAddress,
+        amount: rewardTokens,
+      });
+      toast.success(`Successfully rewarded ${rewardTokens} tokens to your wallet.`);
+    } catch (error) {
+      console.error("Error rewarding tokens:", error);
+      toast.error("Failed to reward tokens. Please try again.");
+    }
+  };
+  
+  
   const totalPrice = () => {
     try {
       let total = 0;
       cart?.forEach((item) => {
         total += (item.price ?? 0) * item.numberOfItems;
       });
-
+      const discount = appliedTokens;
+      total = total - discount;
       return total.toLocaleString("en-US", {
         style: "currency",
         currency: "NRs",
@@ -93,7 +154,21 @@ const CartPage = () => {
   useEffect(() => {
     getToken();
   }, [auth?.token]);
-
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("/api/v1/auth/profile");
+        setAuth({
+          ...auth,
+          user: response.data.user,
+        });
+        
+      } catch (error) {
+        console.error("Error fetching user profile", error.message);
+      }
+    };
+    fetchUserData();
+  }, []);
   //handle payments
   const handlePayment = async () => {
     try {
@@ -103,7 +178,29 @@ const CartPage = () => {
         nonce,
         cart,
       });
-      setLoading(false);
+
+      const rewardTokens = calculateReward(cart);
+      const userAddress = auth?.user?.walletAddress; 
+      if (userAddress) {
+        await axios.post("/api/v1/book/mintTokens", {
+          userAddress,
+          amount: rewardTokens, 
+        });
+        toast.success(`You have earned ${rewardTokens} tokens!`);
+      }
+
+      if (appliedTokens > 0) {
+        await axios.post("/api/v1/book/updateTokenBalance", {
+          address: userAddress,
+          tokensToDeduct: appliedTokens,
+        });
+        toast.success(`You have earned ${rewardTokens} tokens and used ${appliedTokens} tokens as a discount!`);
+
+        const { data: updatedBalance } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}`);
+
+        setTokenBalance(updatedBalance.balance); // Update local balance
+      }
+      // setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
       await updateProductQuantities();
@@ -114,6 +211,32 @@ const CartPage = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if(auth?.user?.walletAddress) fetchTokenBalance();
+  }, [auth?.user?.walletAddress]);
+
+  // const refreshTokenBalance = async () => {
+  //   try {
+  //     const userAddress = auth?.user?.walletAddress;
+  //     if (userAddress) {
+  //       const { data } = await axios.get(`/api/v1/books/getBalance?address=${userAddress}`);
+  //       setTokenBalance(data.balance);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error refreshing token balance:", error);
+  //   }
+  // };
+
+  // const connectUserWallet = async () => {
+  //   try {
+  //     const address = await connectWallet(setAuth);
+  //     toast.success(`Wallet connected: ${address}`);
+  //   } catch (error) {
+  //     toast.error("Wallet connection failed.");
+  //   }
+  // };
+  
+
 
   const handleAddToWishlist = (p) => {
     const updatedWishlist = [...wishlist];
@@ -262,7 +385,12 @@ const CartPage = () => {
                       </div>
                     </div>
                   </div>
-
+                  <div className="mt-4">
+                    <h4 className="text-lg">
+                    Your Token Balance: <span className="font-bold">{tokenBalance || 0} Tokens</span>
+                    </h4>
+                  </div>
+      
                   <div className="flex flex-col justify-between items-end my-4">
                     <div className="md:text-2xl text-lg font-bold">
                       NRs. {(p.price ?? 0).toFixed(2)}
@@ -300,6 +428,8 @@ const CartPage = () => {
                     {totalPrice()}
                   </span>
                 </h4>
+                <h4>Your Token Balance: {tokenBalance}</h4>
+
               </div>
               
               {auth?.user?.address ? (
@@ -357,6 +487,7 @@ const CartPage = () => {
                         }}
                         onInstance={(instance) => setInstance(instance)}
                       />
+                      <button className="bg-sky-800 text-white px-4 py-2 rounded mt-2" onClick={connectUserWallet}>Connect Wallet</button>
 
                       <button
                         className="bg-sky-800 text-white px-4 py-2 rounded mt-2"
@@ -365,6 +496,20 @@ const CartPage = () => {
                       >
                         {loading ? "Processing..." : "Make Payment"}
                       </button>
+                      <div className="mt-4">
+                      <h4 className="text-lg">
+                        Apply Tokens for Discount:
+                        <input
+                          type="number"
+                          min="0"
+                          max={tokenBalance}
+                          value={appliedTokens}
+                          onChange={(e) =>  applyTokens(Number(e.target.value))}
+                          className="ml-2 border rounded-md p-1"
+                        />
+                      </h4>
+                    </div>
+
                     </>
                   ))}
               </div>

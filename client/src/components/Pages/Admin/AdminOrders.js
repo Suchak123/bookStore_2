@@ -112,7 +112,7 @@ const AdminOrders = () => {
                           {formatDate(o.createdAt)}
                         </td>
                         <td className="sm:p-2 p-1">
-                          {o.payment.success ? "Success" : "Failed"}
+                          {o.payment.success ? "Success" : "Success"}
                         </td>
                         <td className="sm:p-2 p-1">
                           {o.products.reduce(

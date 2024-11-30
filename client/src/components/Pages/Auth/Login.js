@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LogoImg from "../../../assets/images/logo.png";
+// import LogoImg from "../../../assets/images/logo.png";
 import "../../../assets/stylings/Auth.css";
 import Layout from "../../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/auth";
-
+import LogoImage from "../../../assets/images/logo/logo1.png"
 const UserLogin = () => {
   const [auth, setAuth] = useAuth();
   const [visible, setVisible] = useState(false);
@@ -56,8 +56,8 @@ const UserLogin = () => {
       <div className="flex justify-center items-center h-screen space-x-8">
         <div className="w-1/5 md:block hidden mr-20">
           <div className="flex flex-col items-center justify-center">
-            <img src={LogoImg} alt="Logo" className="w-full" />
-            <h2 className="signup text-2xl font-bold mt-10">Login</h2>
+            <img src={LogoImage} alt="Logo" className="w-full" />
+            <h2 className="signup text-2xl font-bold mt-2">Login</h2>
           </div>
         </div>
         <div className="md:w-2/5 my-10 w-2/3">

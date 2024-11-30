@@ -1,6 +1,6 @@
 import "../../assets/stylings/Footer.css";
 
-import StarsHollowLogo from "../../assets/images/logo.png";
+import LogoImg from "../../assets/images/logo/logo1.png";
 import DiscordImg from "../../assets/images/discord.png";
 import TwitterImg from "../../assets/images/twitter.png";
 import InstaImg from "../../assets/images/instagram.png";
@@ -14,7 +14,7 @@ const RuneFooter = () => {
         <div className="side-a flex flex-col">
           <div className="logo flex flex-row">
             <a href="/" target="_blank">
-              <img src={StarsHollowLogo} className="w-32 h-auto" />
+              <img src={LogoImg} className="w-32 h-auto" />
             </a>
             <a href="https://www.google.com/maps/" target="_blank">
               <FontAwesomeIcon
@@ -27,10 +27,8 @@ const RuneFooter = () => {
             <a href="#" target="_blank">
               <p className="ml-3 mr-4">PRIVACY POLICY</p>
             </a>
-            <a href="https://www.google.com/maps" target="_blank">
-              <p className="mr-3 ml-6">OUR STORE</p>
-            </a>
-            <a href="mailto:starshollowb@gmail.com">
+  
+            <a href="mailto:niraulasuchak@gmail.com">
               <p className="mx-3">CONTACT US</p>
             </a>
           </div>
@@ -40,14 +38,14 @@ const RuneFooter = () => {
             <p>Follow Us</p>
           </div>
           <div className="side-b">
-            <a href="https://www.instagram.com/starshollow" target="_blank">
+            <a href="https://www.instagram.com" target="_blank">
               <img src={InstaImg} />
             </a>
-            <a href="https://discord.com/invite/starshollow" target="_blank">
+            <a href="https://discord.com" target="_blank">
               <img src={DiscordImg} />
             </a>
 
-            <a href="https://twitter.com/starshollow" target="_blank">
+            <a href="https://twitter.com" target="_blank">
               <img src={TwitterImg} />
             </a>
           </div>

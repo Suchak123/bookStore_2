@@ -7,9 +7,9 @@ import { useAuth } from "../../context/auth";
 import "../../assets/stylings/LandingPage.css";
 import Genre from "../Genre";
 
-import HiringImg from "../../assets/images/Graphic Designer.png";
-import JoinBookClubImg from "../../assets/images/bookclub.png";
-import VisitUsImg from "../../assets/images/visitus.png";
+// import HiringImg from "../../assets/images/Graphic Designer.png";
+// import JoinBookClubImg from "../../assets/images/bookclub.png";
+// import VisitUsImg from "../../assets/images/visitus.png";
 import GenreImg from "../../assets/images/book-genres-1024x914.png";
 import BookImg from "../../assets/images/top-10-books-every-college-student-read-e1464023124869.jpeg";
 import BookShelfImg from "../../assets/images/books-bookshelf-isolated-vector.png";
@@ -27,11 +27,11 @@ const LandingPage = () => {
           <div className="content-container flex gap-8 lg:flex-row flex-column items-center mt-0">
             <div className="text-container mt-2">
               <h3 className="londrina text-center lg:text-left font-sans text-4xl mb-4 leading-tight">
-                Welcome to Online BookStore
+                Welcome to BookVerse: EBook Hub 
               </h3>
               <h1 className="text-center lg:text-left font-sans font-bold text-2xl leading-tight mb-6">
-                Your Beloved Bookstore, <br />
-                Now Available Online
+                Your Favourite Bookstore, <br />
+                 Available Online
               </h1>
               <p className="text-xl text-center md:text-left mb-8">
                 Explore our range of books and <br />

@@ -43,7 +43,7 @@ const UserDashboard = () => {
                     fontFamily: "Poppins, sans-serif",
                   }}
                 >
-                  We're glad to have you here at Stars Hollow. <br />
+                  We're glad to have you here at BookVerse. <br />
                   Explore the features and make the most of your dashboard
                   experience.
                 </h5>

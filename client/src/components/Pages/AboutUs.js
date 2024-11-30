@@ -5,7 +5,6 @@ import { faCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 import StarsHollowImg from "../../assets/images/bookstore.png";
-import JoinBookClubImg from "../../assets/images/bookclub.png";
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ const AboutUs = () => {
               <p className="text-lg leading-7 md:w-3/5 w-full">
                 Nestled in the heart of the charming Kathmandu valley,
                 our Bookstore has been a
-                beloved online hub for mamny years. Since our website first
+                beloved online hub. Since our website first
                 opened, we've been dedicated to fostering a love for reading and
                 providing a warm, welcoming space for book lovers of all ages.
                 
@@ -42,7 +41,7 @@ const AboutUs = () => {
             </div>
 
             <div className=" rounded-lg">
-              <img src={StarsHollowImg} className="rounded-lg shadow-lg" />
+              {/* <img src={StarsHollowImg} className="rounded-lg shadow-lg" /> */}
             </div>
           </div>
         </div>
@@ -65,37 +64,18 @@ const AboutUs = () => {
               Going Online
             </h2>
             <p className="text-lg leading-7">
-              In response to the evolving needs of our customers and the
-              changing landscape of the book industry, We
-              has recently expanded online with many more technological shifts.
+              <p>Contact Us</p>
             </p>
           </div>
         </div>
         <div className="mb-8 pt-10">
           <h2 className="bona text-2xl font-bold text-blue-800 mb-4 text-center">
-            Join Our Community
+            Join Us
           </h2>
-          <div className="flex  md:flex-row flex-col gap-10 items-center justify-between">
-            <div>
-              <p className="text-lg leading-7 md:w-2/3 w-full">
-                We invite you to explore our website, visit our bookstore, and
-                become part of the Stars Hollow Bookstore family. Follow us on
-                social media, sign up for our newsletter, and stay connected
-                with all the latest news, events, and special offers.
-              </p>
-              <p className="text-lg leading-7 md:w-2/3 w-full">
-                Thank you for being part of our story. Here's to many more years
-                of shared adventures, discoveries, and beloved books.
-              </p>
-            </div>
-            <div className="w-2/3">
-              <a href="https://discord.com/invite/starshollow" target="_blank">
-                <img src={JoinBookClubImg} />
-              </a>
-            </div>
+         
+           
           </div>
         </div>
-      </div>
     </Layout>
   );
 };

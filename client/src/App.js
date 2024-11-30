@@ -12,7 +12,7 @@ import AdminRoute from "./components/Routes/AdminRoute";
 import AdminDashboard from "./components/Pages/Admin/AdminDashboard";
 import CreateGenre from "./components/Pages/Admin/CreateGenre";
 import CreateBook from "./components/Pages/Admin/CreateBook";
-import StarsHollowUsers from "./components/Pages/Admin/StarsHollowUsers";
+import StarsHollowUsers from "./components/Pages/Admin/BookVerseUsers";
 import Profile from "./components/Pages/User/Profile";
 import MyOrders from "./components/Pages/User/MyOrders";
 import UserDashboard from "./components/Pages/User/UserDashboard";

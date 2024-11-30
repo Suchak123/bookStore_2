@@ -11,12 +11,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 var gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox,
   merchantId: process.env.BRAINTREE_MERCHANT_ID,
   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
   privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+  
 });
 
 export const createBookController = async (req, res) => {
@@ -513,5 +513,78 @@ export const brainTreePaymentController = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
+  }
+};
+
+export const stripePaymentController = async (req, res) => {
+  try {
+    const { tokenId, cart, deliveryAddress } = req.body;
+
+    if (!tokenId || !cart || !cart.length || !deliveryAddress) {
+      return res.status(400).json({ success: false, message: "Invalid request data" });
+    }
+
+    let total = 0;
+    let products = [];
+
+    for (const item of cart) {
+      const book = await bookModel.findById(item._id);
+
+      if (!book) {
+        return res.status(404).json({ success: false, message: `Book not found: ${item._id}` });
+      }
+
+      if (book.quantity < item.numberOfItems) {
+        return res.status(400).json({
+          success: false,
+          message: `Insufficient stock for book: ${book.name}`,
+        });
+      }
+
+      total += book.price * item.numberOfItems;
+
+      products.push({
+        book: book._id,
+        quantity: item.numberOfItems,
+      });
+    }
+
+    const totalInCents = Math.round(total * 100);
+
+    const payment = await stripe.charges.create({
+      amount: totalInCents,
+      currency: "usd",
+      source: tokenId,
+      description: "Book Order Payment",
+    });
+
+    for (const item of cart) {
+      await bookModel.findByIdAndUpdate(item._id, {
+        $inc: { quantity: -item.numberOfItems },
+      });
+    }
+
+    const order = new OrderModel({
+      products,
+      payment,
+      buyer: req.user._id,
+      totalAmount: total,
+      deliveryAddress,
+    });
+
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Payment successful and order placed",
+      order,
+    });
+  } catch (error) {
+    console.error("Error during Stripe payment:", error);
+    res.status(500).json({
+      success: false,
+      message: "Payment processing failed",
+      error: error.message,
+    });
   }
 };

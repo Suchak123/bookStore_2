@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LogoImg from "../../../assets/images/logo.png";
+import LogoImg from "../../../assets/images/logo/logo1.png";
 import "../../../assets/stylings/Auth.css";
 import Layout from "../../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
@@ -70,7 +70,7 @@ const UserRegistration = () => {
         <div className="w-1/5 md:block hidden mr-20">
           <div className="flex flex-col items-center justify-center">
             <img src={LogoImg} alt="Logo" className="w-full" />
-            <h2 className="signup text-2xl font-bold mt-10">Sign Up!</h2>
+            <h2 className="signup text-2xl font-bold mt-2">Sign Up!</h2>
           </div>
         </div>
         <div className="md:w-2/5 my-10 w-2/3">

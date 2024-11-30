@@ -136,7 +136,7 @@ const BookDetails = () => {
                 </div>
                 <div className="price">
                   <p className="font-bold md:text-2xl text-xl text-blue-950 ">
-                    <span className="londrina-color">Price:</span> ${" "}
+                    <span className="londrina-color">Price:</span> NRs. {" "}
                     {book.price}/-
                   </p>
                 </div>

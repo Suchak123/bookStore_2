@@ -1,8 +1,8 @@
 import OfferCard from "./OfferCard";
 
 import BookImg from "../assets/images/book-genres-1024x914.png";
-import GiftImg from "../assets/images/gift.png";
-import BookClubImg from "../assets/images/bookclub2.png";
+import GiftImg from "../assets/images/delivery.jpg";
+// import BookClubImg from "../assets/images/bookclub2.png";
 
 const Feature = () => {
   return (

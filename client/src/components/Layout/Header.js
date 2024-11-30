@@ -15,7 +15,7 @@ import SearchInput from "../Form/SearchInput";
 import useGenre from "../../hooks/UseGenre";
 import "../../assets/stylings/Navbar.css";
 
-import LogoImg from "../../assets/images/logo.png";
+import LogoImg from "../../assets/images/logo/logo1.png";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
 import { useCart } from "../../context/cart";

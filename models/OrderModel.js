@@ -30,6 +30,7 @@ const orderSchema = new mongoose.Schema(
         "Cancelled",
       ],
     },
+    
   },
   { timestamps: true }
 );

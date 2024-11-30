@@ -97,13 +97,13 @@ const sendRestPasswordMail = async (email, token) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: "starshollowb@gmail.com",
+        user: "niraulasuchak@gmail.com",
         pass: `${process.env.SMTP_PASSWORD}`,
       },
     });
 
     const mailOptions = {
-      from: "starshollowb@gmail.com",
+      from: "niraulasuchak@gmail.com",
       to: email,
       subject: "Reset your password",
       html: `<p> Hi, This is your token to change password: <br> <h1> ${token} </h1> <br> <p>The token expires in 10 minutes</p><br><h3> DO NOT SHARE YOUR TOKEN </h3> </p>`,
@@ -278,7 +278,6 @@ export const updateProfileController = async (req, res) => {
       phoneNumber,
     } = req.body;
     const user = await userModel.findById(req.user._id);
-    //password
     if (password && password.length < 6) {
       return res.json({ error: "Password is required and 6 character long" });
     }
@@ -443,7 +442,6 @@ export const orderStatusController = async (req, res) => {
       });
     }
 
-    // Send email to the user about the order status update
     const { username, email } = order.buyer;
     await sendOrderStatusUpdateEmail(username, email, orderId, status);
 

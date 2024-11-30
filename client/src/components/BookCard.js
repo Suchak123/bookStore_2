@@ -80,7 +80,7 @@ const BookCard = ({ book }) => {
         <p className="card-text mb-2 text-lg text-blue-900 px-4">
           {book.author.name}
         </p>
-        <p className="price mb-2 font-bold text-xl px-4">$ {book.price}</p>
+        <p className="price mb-2 font-bold text-xl px-4">NRs. {book.price}</p>
         <div className="buttons flex justify-end gap-4 px-4 text-lg mb-4">
           {book.quantity > 0 ? (
             <>
@@ -91,7 +91,7 @@ const BookCard = ({ book }) => {
                 <FontAwesomeIcon icon={faCartPlus} />
               </button>
               <button
-                className="bg-pink-800 text-white px-2 py-1 mb-2 rounded-xl"
+                className="bg-blue-800 text-white px-2 py-1 mb-2 rounded-xl"
                 onClick={handleAddToWishlist}
               >
                 <FontAwesomeIcon icon={faHeart} />

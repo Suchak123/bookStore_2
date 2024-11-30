@@ -31,9 +31,9 @@ const FaqSection = () => {
       question: "How do I join the bookclub?",
       answer: (
         <div>
-          We have a virtual bookclub at Discord. Click&nbsp;
+          We have a bookclub at Discord. Click&nbsp;
           <a
-            href="https://discord.com/invite/starshollow"
+            href="https://discord.com"
             target="_blank"
             className="underline text-blue-800"
           >
@@ -50,10 +50,10 @@ const FaqSection = () => {
           If you are an investor and would like to get in touch with us, please
           send an email to{" "}
           <a
-            href="mailto:starshollowb@gmail.com"
+            href="#"
             className="text-semibold text-blue-800"
           >
-            starshollowb@gmail.com.
+            bookverse@gmail.com.
           </a>
           &nbsp;Our team will review your inquiry and respond as soon as
           possible. Please include your contact information and a brief
