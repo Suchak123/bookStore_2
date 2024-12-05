@@ -459,7 +459,6 @@ export const orderStatusController = async (req, res) => {
 export default {
   registerController,
   loginController,
-  testController,
   getUsersController,
   updateProfileController,
   getOrdersController,
@@ -467,4 +466,5 @@ export default {
   orderStatusController,
   forgetLoad,
   resetPassword,
+  testController,
 };

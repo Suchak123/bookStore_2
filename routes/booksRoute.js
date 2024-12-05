@@ -167,30 +167,30 @@ router.get("/getBalance", async (req, res) => {
   
 });
 
-router.post("/updateTokenBalance", async (req, res) => {
-  try {
-    const { address, tokensToDeduct } = req.body;
+// router.post("/updateTokenBalance", async (req, res) => {
+//   try {
+//     const { address, tokensToDeduct } = req.body;
 
-    if (!address || !tokensToDeduct) {
-      return res.status(400).json({ success: false, error: "Invalid data" });
-    }
+//     if (!address || !tokensToDeduct) {
+//       return res.status(400).json({ success: false, error: "Invalid data" });
+//     }
 
-    const currentBalance = await loyaltyToken.methods.balanceOf(address).call();
+//     const currentBalance = await loyaltyToken.methods.balanceOf(address).call();
 
-    const updatedBalance = BigInt(currentBalance) - BigInt(tokensToDeduct * 1e18);
+//     const updatedBalance = BigInt(currentBalance) - BigInt(tokensToDeduct * 1e18);
 
-    if (updatedBalance < 0n) {
-      return res.status(400).json({ success: false, error: "Insufficient tokens" });
-    }
+//     if (updatedBalance < 0n) {
+//       return res.status(400).json({ success: false, error: "Insufficient tokens" });
+//     }
 
-    await loyaltyToken.methods.burn(address, tokensToDeduct * 1e18).send({ from: process.env.OWNER_WALLET, gas: 3000000 });
+//     await loyaltyToken.methods.burn(address, tokensToDeduct * 1e18).send({ from: process.env.OWNER_WALLET, gas: 3000000 });
 
-    return res.json({ success: true, message: "Token balance updated successfully" });
-  } catch (error) {
-    console.error("Error updating token balance:", error);
-    return res.status(500).json({ success: false, error: "Internal server error" });
-  }
-});
+//     return res.json({ success: true, message: "Token balance updated successfully" });
+//   } catch (error) {
+//     console.error("Error updating token balance:", error);
+//     return res.status(500).json({ success: false, error: "Internal server error" });
+//   }
+// });
 
 
 

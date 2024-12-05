@@ -189,17 +189,17 @@ const CartPage = () => {
         toast.success(`You have earned ${rewardTokens} tokens!`);
       }
 
-      if (appliedTokens > 0) {
-        await axios.post("/api/v1/book/updateTokenBalance", {
-          address: userAddress,
-          tokensToDeduct: appliedTokens,
-        });
-        toast.success(`You have earned ${rewardTokens} tokens and used ${appliedTokens} tokens as a discount!`);
+      // if (appliedTokens > 0) {
+      //   await axios.post("/api/v1/book/updateTokenBalance", {
+      //     address: userAddress,
+      //     tokensToDeduct: appliedTokens,
+      //   });
+      //   toast.success(`You have earned ${rewardTokens} tokens and used ${appliedTokens} tokens as a discount!`);
 
-        const { data: updatedBalance } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}`);
+      //   const { data: updatedBalance } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}`);
 
-        setTokenBalance(updatedBalance.balance); // Update local balance
-      }
+      //   setTokenBalance(updatedBalance.balance); // Update local balance
+      // }
       // setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);

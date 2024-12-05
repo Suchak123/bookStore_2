@@ -59,7 +59,7 @@ const FaqSection = () => {
           possible. Please include your contact information and a brief
           description of your investment interest or proposal.
           <br />
-          <b>Thank you for your interest in Stars Hollow.</b>
+          <b>Thank you for your interest in BookVerse.</b>
         </div>
       ),
     },

@@ -112,16 +112,16 @@ const UserLogin = () => {
                   Login
                 </button>
                 <div className="mt-2 flex items-center justify-between">
-                  <div>
+                  {/* <div>
                     <Link to="/forget" className=" inline-block">
                       <button className="py-2 px-4 text-white rounded-md hover:bg-blue-800">
                         Forgot Password?
                       </button>
                     </Link>
-                  </div>
+                  </div> */}
                   <div>
                     <h5 className="inline-block mr-2 px-4">
-                      New at Stars Hollow?
+                      New at Book Verse?
                     </h5>
                     <Link to="/register" className=" inline-block">
                       <button
