@@ -38,18 +38,25 @@ const userSchema = Schema(
       type: Number,
       default: 0,
     },
-    // isEmailVerified: {
-    //   type: Number,
-    //   default: 0,
-    // },
+    
     token: {
       type: String,
       default: "",
     },
     walletAddress: {
       type: String,
-      required: false,
-    }
+      required: true,
+      unique: true,
+      sparse: true
+    },
+    isWalletConnected: {
+      type: Boolean,
+      default: false,
+    },
+    hasAppliedDiscount: { 
+      type: Boolean, 
+      default: false
+    },
   },
   { timestamps: true }
 );

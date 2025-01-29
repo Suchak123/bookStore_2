@@ -1,6 +1,7 @@
 import express from "express";
 import AuthController from "../controllers/AuthController.js";
 import { requireSignIn, isAdmin } from "../middlewares/authMiddleware.js";
+import { linkWalletAddress } from "../controllers/walletController.js";
 
 const router = express.Router();
 
@@ -39,20 +40,22 @@ router.put(
   AuthController.orderStatusController
 );
 
-router.put("/updateWallet", requireSignIn, async (req, res) => {
-  const { walletAddress } = req.body;
-  try {
-    const user = await UserModel.findByIdAndUpdate(
-      req.user._id, 
-      { walletAddress }, 
-      { new: true }
-    );
-    res.status(200).json({ success: true, user });
-  } catch (error) {
-    console.error("Error updating wallet address:", error);
-    res.status(500).json({ success: false, message: "Failed to update wallet address" });
-  }
-});
+router.post('/link-wallet', requireSignIn,linkWalletAddress);
+
+// router.put("/updateWallet", requireSignIn, async (req, res) => {
+//   const { walletAddress } = req.body;
+//   try {
+//     const user = await UserModel.findByIdAndUpdate(
+//       req.user._id, 
+//       { walletAddress }, 
+//       { new: true }
+//     );
+//     res.status(200).json({ success: true, user });
+//   } catch (error) {
+//     console.error("Error updating wallet address:", error);
+//     res.status(500).json({ success: false, message: "Failed to update wallet address" });
+//   }
+// });
 
 
 export default router;

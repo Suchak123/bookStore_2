@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Web3 from 'web3';
 const UserRegistration = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -19,6 +20,27 @@ const UserRegistration = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+
+
+  const handleMetamaskConnection = async() => {
+    if(!window.ethereum){
+      toast.error("Metamask not detected. Please install metamask to continue.")
+    }
+    try {
+      const web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await web3.eth.getAccounts();
+      const walletAddress = accounts[0];
+      console.log(walletAddress);
+      setWalletAddress(walletAddress);
+      return walletAddress;
+    } catch (error) {
+      toast.error("Metamask connection failed.");
+      console.error(error);
+      return null;
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +49,7 @@ const UserRegistration = () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{10}$/;
+    const walletAddressRegex = /^0x[a-fA-F0-9]{40}$/;
 
     if (!password.match(passwordRegex)) {
       return toast.error(
@@ -41,6 +64,10 @@ const UserRegistration = () => {
       return toast.error("Passwords do not match.");
     }
 
+    if (!walletAddress || !walletAddress.match(walletAddressRegex)) {
+      return toast.error("Please enter a valid wallet address.");
+    }
+
     try {
       const res = await axios.post(`/api/v1/auth/register`, {
         firstName,
@@ -50,6 +77,8 @@ const UserRegistration = () => {
         phoneNumber,
         address,
         password,
+        walletAddress,
+        isWalletConnected: true
       });
 
       if (res.data.success) {
@@ -64,6 +93,15 @@ const UserRegistration = () => {
     }
   };
 
+  const connectWalletandRegister = async(e) => {
+    e.preventDefault();
+
+    const connectedWallet = await handleMetamaskConnection();
+    if(connectedWallet){
+      handleSubmit(e);
+    }
+  }
+
   return (
     <Layout>
       <div className="flex justify-center items-center h-screen space-x-8">
@@ -75,7 +113,7 @@ const UserRegistration = () => {
         </div>
         <div className="md:w-2/5 my-10 w-2/3">
           <div className="register-form p-8 rounded-lg">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={connectWalletandRegister}>
               <h2 className="md:hidden text-2xl font-bold mb-4">Sign Up!</h2>
 
               <div className="mb-4">
@@ -200,6 +238,16 @@ const UserRegistration = () => {
                   name="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
+                  className="block w-full border-gray-300 rounded-md p-2"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  placeholder="Enter your wallet address"
+                  name="walletAddress"
+                  value={walletAddress}
+                  onChange={(e) => setWalletAddress(e.target.value)}
                   className="block w-full border-gray-300 rounded-md p-2"
                   required
                 />

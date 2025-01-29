@@ -15,9 +15,10 @@ import BookShelfImg from "../../assets/images/books-bookshelf-isolated-vector.pn
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useWishlist();
-  const [cart, setCart] = useCart();
+  const [cart, saveCart] = useCart();
   const navigate = useNavigate();
 
+  
   const handleAddToCart = (book) => {
     const updatedCart = [...cart];
     const existingProduct = updatedCart.find((item) => item._id === book._id);
@@ -32,7 +33,7 @@ const Wishlist = () => {
         numberOfItems: 1,
       });
     }
-    setCart(updatedCart);
+    saveCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     toast.success("Book added to cart");
   };

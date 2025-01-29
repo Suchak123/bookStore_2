@@ -17,39 +17,145 @@ import {
 import { toast } from "react-toastify";
 import DropIn from "braintree-web-drop-in-react";
 import { useWishlist } from "../../context/wishlist";
-import { connectWallet } from "../../utils/connectWallet";
+import { connectWallet, ApproveTokens } from "../../utils/connectWallet";
 
 import BookShelfImg from "../../assets/images/books-bookshelf-isolated-vector.png";
+// import { set } from "mongoose";
+import Web3 from "web3";
+// import { applyDiscount, checkDiscountStatus, useDiscountStatus } from "./Discount";
+
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
-  const [cart, setCart] = useCart();
+  const [cart, saveCart] = useCart();
   const [productQuantities, setProductQuantities] = useState({});
   const [clientToken, setClientToken] = useState("");
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkout, setCheckout] = useState(false);
-  const [wishlist, setWishlist] = useWishlist();
+  const [wishlist, setWishlist]   = useWishlist();
   const [tokenBalance, setTokenBalance] = useState(0);
   const [appliedTokens, setAppliedTokens] = useState(0);
-
-
+  
   const navigate = useNavigate();
-  const applyTokens = (tokens) => {
-    if (tokens <= tokenBalance) {
-      setAppliedTokens(tokens);
-      toast.success(`Applied ${tokens} tokens as a discount!`);
-    } else {
-      toast.error("Insufficient tokens.");
+
+  const getUsersCartKey = `cart_${auth?.user?._id }`;
+
+  const fetchCart = () => {
+    const userCart = localStorage.getItem(getUsersCartKey);
+    // const discountApplied = localStorage.getItem("discountApplied") === "true";
+
+    saveCart(userCart ? JSON.parse(userCart) : []);
+
+    // if(discountApplied){
+    //   cart = cart.map((item) => {
+    //     if(!item.discountedPrice) {
+    //     }
+    //   })
+    // }
+  };
+ 
+  const burnTokens = async (tokensToBurn) => {
+    const userAddress = auth?.user?.walletAddress;
+  
+    try {
+      if(!userAddress){
+        toast.error("UserAddress not found or null");
+        return;
+      }
+      
+      // const hasAppliedDiscount = await checkDiscountStatus(userAddress);
+      // if(hasAppliedDiscount){
+      //   toast.error("You have already applied a discount");
+      //   return;
+      // }
+
+      const web3 = new Web3(window.ethereum);
+      
+      const response = await axios.post("/api/v1/book/burnTokens", {
+        address: userAddress,
+        tokensToBurn,
+      });
+
+      console.log("Burn response: ", response.data);
+  
+      if (response.data.success && response.data.tx) {
+        
+        const { to, gas, data } = response.data.tx;
+        console.log("Transaction response: ", response.data.tx);
+  
+        // Request wallet to sign and send the transaction
+        const tx = {
+          from: userAddress,
+          to: to,
+          gas: gas,
+          data: data,
+        };
+      
+        const txHash = await window.ethereum.request({
+          method: "eth_sendTransaction",
+          params: [tx],
+        });
+
+        console.log("Transaction Hash:", txHash);
+        toast.success(`Tokens burned successfully! Transaction Hash: ${txHash}`);
+          
+      } else {
+        toast.error(response.data.message || "Invalid response from server.");
+      }
+    } catch (err) {
+      console.error("Error burning tokens:", err);
+      if (err.code === 4001) {
+        toast.error("Transaction rejected by the user.");
+      } else {
+        toast.error(err.message || "Failed to burn tokens. Please try again.");
+      }
     }
   };
 
+  // const TokenBurnInput = ({ tokenBalance }) => {
+  //   const walletAddress = auth?.user?.walletAddress;
+  //   const { hasAppliedDiscount, loading: discountCheckLoading } = useDiscountStatus(walletAddress)
+  
+  //   const handleBurnTokens = async () => {
+  //     if (!walletAddress) {
+  //       toast.error("Please connect your wallet first");
+  //       return;
+  //     }
+  
+  //     if (appliedTokens > tokenBalance) {
+  //       toast.error("You cannot apply more tokens than you have.");
+  //       return;
+  //     }
+  
+  //     if (appliedTokens < 1) {
+  //       toast.error("Please enter valid number of tokens.");
+  //       return;
+  //     }
+  
+  //     if (hasAppliedDiscount) {
+  //       toast.error("You have already applied a discount");
+  //       return;
+  //     }
+  
+  //     setLoading(true);
+  //     try {
+  //       await burnTokens(appliedTokens);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  
+  
   const fetchTokenBalance = async () => {
     const userAddress = auth?.user?.walletAddress;
     if (userAddress) {
       try {
-        const { data } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}`);
+        const { data } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}&timestamp=${Date.now()}`);
         setTokenBalance(data.balance);
+        console.log("Fetched balance: ", data.balance);
+        
       } catch (error) {
         console.error("Error fetching token balance:", error);
         toast.error("Failed to fetch token balance.");
@@ -57,37 +163,73 @@ const CartPage = () => {
     }
   };
 
+  // const resetDiscountAfterOrder = async () => {
+  //   const userAddress = auth?.user?.walletAddress;
+  //   try {
+  //     // Reset backend state
+  //     await axios.post("/api/v1/user/resetDiscount", { walletAddress: userAddress });
+      
+  //     // Clear frontend state
+  //     localStorage.removeItem("discountApplied");
+  //     localStorage.removeItem("burnedTokensAmount");
+      
+  //   } catch (error) {
+  //     console.error("Error resetting discount:", error);
+  //   }
+  // };
+
   const connectUserWallet = async () => {
-      try {
-        const address = await connectWallet(setAuth);
-        toast.success(`Wallet connected:${address}`);
-      } catch (error) {
-        toast.error("Wallet connection failed.");
+    try {
+      const token = auth?.token;
+      const storedWalletAddress = auth?.user?.walletAddress;
+
+      if(!token){
+        console.error("No token was found");
+        toast.error("No token found");
+        return null;
       }
-    };
+      const address = await connectWallet();
+
+      if(!address){
+        console.error("No wallet address returned");
+        toast.error("Failed to connect wallet");
+        return null;
+      }
+
+      if(storedWalletAddress && address !== storedWalletAddress){
+        console.error(`Validation error: Connected wallet ${address} does not match stored wallet ${storedWalletAddress}`);
+        toast.error("Connected wallet address does not match account's registered wallet address.");
+        return null;
+      }
+      toast.success("Wallet successfully linked to account");
+      
+    } catch (error) {
+      toast.error( error.response?.data?.message ||"Wallet connection failed.", error);
+    }
+};
   
   
 
-  const handleTokenReward = async () => {
-    const userAddress = auth?.user?.walletAddress;
+  // const handleTokenReward = async () => {
+  //   const userAddress = auth?.user?.walletAddress;
   
-    if (!userAddress) {
-      toast.error("Wallet address is not connected. Please connect your wallet.");
-      return;
-    }
+  //   if (!userAddress) {
+  //     toast.error("Wallet address is not connected. Please connect your wallet.");
+  //     return;
+  //   }
   
-    try {
-      const rewardTokens = calculateReward(cart); // Custom reward logic
-      await axios.post("/api/v1/book/mintTokens", {
-        userAddress,
-        amount: rewardTokens,
-      });
-      toast.success(`Successfully rewarded ${rewardTokens} tokens to your wallet.`);
-    } catch (error) {
-      console.error("Error rewarding tokens:", error);
-      toast.error("Failed to reward tokens. Please try again.");
-    }
-  };
+  //   try {
+  //     const rewardTokens = calculateReward(cart);
+  //     await axios.post("/api/v1/book/mintTokens", {
+  //       userAddress,
+  //       amount: rewardTokens,
+  //     });
+  //     toast.success(`Successfully rewarded ${rewardTokens} tokens to your wallet.`);
+  //   } catch (error) {
+  //     console.error("Error rewarding tokens:", error);
+  //     toast.error("Failed to reward tokens. Please try again.");
+  //   }
+  // };
   
   
   const totalPrice = () => {
@@ -96,21 +238,26 @@ const CartPage = () => {
       cart?.forEach((item) => {
         total += (item.price ?? 0) * item.numberOfItems;
       });
+
       const discount = appliedTokens;
-      total = total - discount;
+    
+      const discountedValue = discount;
+      total = total - discountedValue;
+      
       return total.toLocaleString("en-US", {
         style: "currency",
         currency: "NRs",
       });
     } catch (error) {
       console.log(error);
+      return "Error calculating total"
     }
   };
 
   const removeCartItem = (productId) => {
     try {
       let updatedCart = cart.filter((item) => item._id !== productId);
-      setCart(updatedCart);
+      saveCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {
       console.log(error);
@@ -129,8 +276,7 @@ const CartPage = () => {
       return item;
     });
 
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    saveCart(updatedCart);
   };
 
   // const handleGiftWrapChange = (e) => {
@@ -152,8 +298,13 @@ const CartPage = () => {
   };
 
   useEffect(() => {
+    fetchCart();
     getToken();
-  }, [auth?.token]);
+    fetchTokenBalance();
+
+  }, [auth?.user]);
+  
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -169,26 +320,33 @@ const CartPage = () => {
     };
     fetchUserData();
   }, []);
+
+  
   //handle payments
   const handlePayment = async () => {
     try {
       setLoading(true);
+
+      const totalBooks = cart.reduce((acc, item) => acc + item.numberOfItems, 0);
+      console.log(totalBooks);
+
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post("/api/v1/book/braintree/payment", {
         nonce,
         cart,
       });
 
+      // const purchaseReward = cart?.price;
       const rewardTokens = calculateReward(cart);
       const userAddress = auth?.user?.walletAddress; 
       if (userAddress) {
         await axios.post("/api/v1/book/mintTokens", {
-          userAddress,
+          userAddress,  
           amount: rewardTokens, 
         });
         toast.success(`You have earned ${rewardTokens} tokens!`);
       }
-
+      
       // if (appliedTokens > 0) {
       //   await axios.post("/api/v1/book/updateTokenBalance", {
       //     address: userAddress,
@@ -201,9 +359,11 @@ const CartPage = () => {
       //   setTokenBalance(updatedBalance.balance); // Update local balance
       // }
       // setLoading(false);
-      localStorage.removeItem("cart");
-      setCart([]);
-      await updateProductQuantities();
+
+
+      localStorage.removeItem(getUsersCartKey);
+      saveCart([]);
+      // await updateProductQuantities();
       navigate("/dashboard/user/orders");
       toast.success("Payment Completed Successfully");
     } catch (error) {
@@ -235,7 +395,6 @@ const CartPage = () => {
   //     toast.error("Wallet connection failed.");
   //   }
   // };
-  
 
 
   const handleAddToWishlist = (p) => {
@@ -277,6 +436,7 @@ const CartPage = () => {
     }
   };
 
+
   useEffect(() => {
     const fetchProductQuantities = async () => {
       try {
@@ -285,6 +445,7 @@ const CartPage = () => {
           bookIds,
         });
         const quantities = response.data.quantities;
+       
         setProductQuantities(quantities);
       } catch (error) {
         console.error("Error fetching product quantities:", error);
@@ -389,6 +550,7 @@ const CartPage = () => {
                     <h4 className="text-lg">
                     Your Token Balance: <span className="font-bold">{tokenBalance || 0} Tokens</span>
                     </h4>
+                    
                   </div>
       
                   <div className="flex flex-col justify-between items-end my-4">
@@ -487,7 +649,9 @@ const CartPage = () => {
                         }}
                         onInstance={(instance) => setInstance(instance)}
                       />
-                      <button className="bg-sky-800 text-white px-4 py-2 rounded mt-2" onClick={connectUserWallet}>Connect Wallet</button>
+                      <button className="bg-sky-800 text-white px-4 py-2 rounded mt-2" onClick={
+                        () => connectUserWallet()}
+                      >Connect Wallet</button>
 
                       <button
                         className="bg-sky-800 text-white px-4 py-2 rounded mt-2"
@@ -501,12 +665,35 @@ const CartPage = () => {
                         Apply Tokens for Discount:
                         <input
                           type="number"
-                          min="0"
+                          min="1"
                           max={tokenBalance}
                           value={appliedTokens}
-                          onChange={(e) =>  applyTokens(Number(e.target.value))}
+                          onChange={(e) => {
+                            const value = Number(e.target.value)
+                            if (value > tokenBalance){
+                              toast.error("You cannot apply more tokens than you have.");
+                          
+                            }
+                            setAppliedTokens(value)
+                          }}
                           className="ml-2 border rounded-md p-1"
                         />
+                        <button
+                          className="bg-sky-800 text-white px-4 py-2 rounded ml-2 "
+                          
+                          onClick={() => {
+                            
+                            if(appliedTokens > tokenBalance){
+                              toast.error("You cannot apply more tokens than you have.")
+                              return;
+                            }
+                            if(appliedTokens < 1){
+                              toast.error("Please enter valid number of tokens.");
+                              return;
+                            }
+                            burnTokens(appliedTokens)
+                          }}
+                        >Apply Discount</button>
                       </h4>
                     </div>
 
@@ -520,5 +707,6 @@ const CartPage = () => {
     </Layout>
   );
 };
+
 
 export default CartPage;

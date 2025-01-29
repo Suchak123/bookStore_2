@@ -17,11 +17,31 @@ const AuthProvider = ({ children }) => {
       console.log("parsedata", parseData);
       setAuth({
         ...auth,
-        user: parseData.user,
+        user: {
+          ...parseData.user,
+          walletAddress: parseData.user?.walletAddress || "",
+          isWalletConnected: !!parseData.user?.walletAddress,
+        },
         token: parseData.token,
       });
     }
   }, []);
+
+  // const updateWalletAddress = (walletAddress) => {
+  //   setAuth((prevAuth) => {
+  //     const updatedAuth = {
+  //       ...prevAuth,
+  //       user: {
+  //         ...prevAuth.user,
+  //         walletAddress,
+  //         isWalletConnected: true,
+  //       },
+  //     };
+
+  //     localStorage.setItem("auth", JSON.stringify(updatedAuth));
+  //     return updatedAuth;
+  //   });
+  // };
 
   return (
     <AuthContext.Provider value={[auth, setAuth]}>

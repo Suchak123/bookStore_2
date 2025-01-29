@@ -27,6 +27,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/genre", genreRoute);
 app.use("/api/v1/author", authorRoute);
 app.use("/api/v1/book", booksRoute);
+
 // app.use("/api/v1/loyalty", loyaltyRoute);
 
 app.get("/", (req, res) => {

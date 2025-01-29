@@ -132,6 +132,8 @@ const registerController = async (req, res) => {
       phoneNumber,
       address,
       role,
+      walletAddress,
+      isWalletConnected
     } = req.body;
     //validations
     if (!username) {
@@ -149,7 +151,14 @@ const registerController = async (req, res) => {
     if (!address) {
       return res.send({ message: "Address is Required" });
     }
-    //check if user exists
+    if (!walletAddress || !isWalletConnected) {
+      return res.status(400).send({ 
+        success: false, 
+        message: "Wallet must be connected before registration." 
+      });
+    }
+
+  
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(200).send({
@@ -167,7 +176,9 @@ const registerController = async (req, res) => {
       phoneNumber,
       address,
       password: hashedPassword,
-      role
+      role,
+      walletAddress,
+      isWalletConnected
     }).save();
 
     // await sendUserVerifyEmail(username, email, user._id);
@@ -175,7 +186,7 @@ const registerController = async (req, res) => {
     return res.status(201).send({
       success: true,
       message:
-        "User registered successfully. Email has been sent for verification.",
+        "User registered successfully.",
       user,
     });
   } catch (error) {
@@ -191,7 +202,7 @@ const registerController = async (req, res) => {
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
+    if (!email || !password ) {
       return res.status(404).send({
         success: false,
         message: "Invalid email or password",
@@ -233,6 +244,8 @@ const loginController = async (req, res) => {
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
+        walletAddress: user.walletAddress,
+        isWalletConnected: user.isWalletConnected,
       },
       token,
     });
@@ -455,6 +468,11 @@ export const orderStatusController = async (req, res) => {
     });
   }
 };
+
+// export const walletLinkController = async(req,res) => {
+//   const { walletAddress, nonce} = req.body;
+  
+// }
 
 export default {
   registerController,

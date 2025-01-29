@@ -18,7 +18,7 @@ const BookDetails = () => {
   const [book, setBook] = useState({});
   const [relatedBooks, setRelatedBooks] = useState([]);
   const navigate = useNavigate();
-  const [cart, setCart] = useCart();
+  const [cart, saveCart] = useCart();
   const [wishlist, setWishlist] = useWishlist();
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const BookDetails = () => {
         numberOfItems: 1,
       });
     }
-    setCart(updatedCart);
+    saveCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     toast.success("Book added to cart");
   };

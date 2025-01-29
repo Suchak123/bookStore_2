@@ -59,7 +59,7 @@ const MyOrders = () => {
                   <thead>
                     <tr className="bg-blue-900 text-white">
                       <th className="hidden sm:block sm:p-2 p-1">SNo.</th>
-                      <th className="sm:p-2 p-1">Order ID</th>
+                      {/* <th className="sm:p-2 p-1">Order ID</th> */}
                       <th className="sm:p-2 p-1">Status</th>
                       <th className="sm:p-2 p-1">Date</th>
                       <th className="sm:p-2 p-1">Payment</th>
@@ -71,12 +71,12 @@ const MyOrders = () => {
                       <td className="hidden sm:block sm:p-2 p-1">
                         {index + 1}
                       </td>
-                      <td
+                      {/* <td
                         className="sm:p-2 p-1 cursor-pointer text-blue-800 underline"
                         onClick={() => copyToClipboard(order._id)}
                       >
                         {order._id}
-                      </td>
+                      </td> */}
                       <td className="sm:p-2 p-1">{order.status}</td>
                       <td className="sm:p-2 p-1">
                         {formatDate(order.createdAt)}

@@ -10,7 +10,7 @@ import { useWishlist } from "../context/wishlist";
 
 const BookCard = ({ book }) => {
   const navigate = useNavigate();
-  const [cart, setCart] = useCart();
+  const [cart, saveCart] = useCart();
   const [wishlist, setWishlist] = useWishlist();
 
   const handleClick = () => {
@@ -33,7 +33,7 @@ const BookCard = ({ book }) => {
         numberOfItems: 1,
       });
     }
-    setCart(updatedCart);
+    saveCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     toast.success("Book added to cart");
   };

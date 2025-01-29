@@ -22,14 +22,17 @@ import {
   getLatestBooks,
   brainTreePaymentController,
   brainTreeTokenController,
-  stripePaymentController
   
- 
+
 } from "../controllers/BookController.js";
 import formidable from "express-formidable";
 import route from "color-convert/route.js";
 import dotenv from "dotenv";
 import { web3, loyaltyToken } from "../config/blockchain.js";
+// import { burnTokens } from "../controllers/loyaltyController.js";
+import { message } from "antd";
+import {Web3Validator} from "web3-validator";
+import User from "../models/UserModel.js";
 dotenv.config();
 const router = express.Router();
 
@@ -115,9 +118,9 @@ router.post("/mintTokens", async (req, res) => {
   if (!userAddress || !amount) {
     return res.status(400).json({ success: false, error: "User address and amount are required" });
   }
+  const adminAddress = process.env.ADMIN_WALLET_ADDRESS; // Admin wallet address
+  const privateKey = process.env.ADMIN_PRIVATE_KEY; 
   try {
-    const adminAddress = process.env.ADMIN_WALLET_ADDRESS; // Admin wallet address
-    const privateKey = process.env.ADMIN_PRIVATE_KEY; 
 
     const amountInWei = web3.utils.toWei(amount.toString(), "ether");
 
@@ -167,31 +170,299 @@ router.get("/getBalance", async (req, res) => {
   
 });
 
-// router.post("/updateTokenBalance", async (req, res) => {
+
+router.post("/burnTokens", async (req, res) => {
+  const { address, tokensToBurn } = req.body;
+
+  const adminAddress = process.env.ADMIN_WALLET_ADDRESS;
+  const adminPrivateKey = process.env.ADMIN_PRIVATE_KEY;
+  const contractAddress = process.env.CONTRACT1_ADDRESS;
+
+  if (!address ) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid input data",
+    });
+  }
+  if(!tokensToBurn || tokensToBurn < 0){
+    return res.status(400).json({
+      success: false,
+      message: "Invalid token amount",
+    })
+  }
+  console.log("Tokens to burn:", tokensToBurn);
+
+  try {
+
+    const decimals = await loyaltyToken.methods.decimals().call();
+
+    const tokensInWei = BigInt(tokensToBurn) * BigInt(10) ** BigInt(decimals);
+    console.log("Tokens in Wei: ", tokensInWei.toString());
+    // Check user's token balance
+    const balance = await loyaltyToken.methods.balanceOf(address).call();
+    if (BigInt(balance) < tokensInWei) {
+      return res.status(400).json({
+        success: false,
+        message: "User does not have enough tokens to burn.",
+      });
+    }
+
+    const block = await web3.eth.getBlock("latest");
+    const baseFee = BigInt(block.baseFeePerGas);
+    const maxPriorityFee = BigInt(web3.utils.toWei("2", "Gwei"));
+
+    const txData = loyaltyToken.methods.burnFrom(address, tokensInWei.toString()).encodeABI();
+    console.log(txData);
+    const nonce = await web3.eth.getTransactionCount(adminAddress, "pending");
+    // const gasPrice = await web3.eth.getGasPrice();
+    const maxFeePerGas = baseFee + maxPriorityFee;
+    const gas = await loyaltyToken.methods.burnFrom(address, tokensInWei.toString()).estimateGas({
+      from: adminAddress,
+    })
+
+    const tx = {
+      from: adminAddress,
+      to: contractAddress,
+      maxPriorityFeePerGas: maxPriorityFee.toString(),
+      maxFeePerGas: maxFeePerGas.toString(),
+      gas: gas.toString(),
+      
+      data: txData,
+      nonce: nonce.toString(),
+    };
+
+    // const signedTx = await web3.eth.accounts.signTransaction(tx, adminPrivateKey);
+    // const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    const updatedBalance = await loyaltyToken.methods.balanceOf(address).call()
+    const humanReadableBalance = web3.utils.fromWei(updatedBalance, "ether");
+    console.log("Balance updated:", humanReadableBalance);
+
+    return res.status(200).json({
+      success: true,
+      message: "Tokens burned successfully.",
+      tx: {
+        to: contractAddress,
+        gas: gas.toString(),
+        data: txData,
+      }
+    });
+  } catch (err) {
+    console.error("Error burning tokens:", err);
+    return res.status(500).json({
+      success: false,
+      message: err.message || "Failed to burn tokens.",
+    });
+  }
+});
+
+router.post("/calculate-rewards", async (req, res) => {
+
+  const { recipient, purchaseAmount } = req.body;
+  const adminAddress = process.env.ADMIN_WALLET_ADDRESS;
+  const contractAddress = process.env.CONTRACT1_ADDRESS;
+
+  if(!recipient) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid input data"
+    });
+  }
+  if(!purchaseAmount || isNaN(purchaseAmount) || purchaseAmount <= 0 ) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid input data"
+    });
+  }
+  
+  console.log(recipient);
+  console.log(purchaseAmount);
+  try {
+    
+    const purchaseAmountBN = web3.utils.toWei(purchaseAmount.toString(), "ether");
+    console.log(purchaseAmountBN);
+    const block = await web3.eth.getBlock("latest");
+    const baseFee = BigInt(block.baseFeePerGas || "0");
+    const maxPriorityFee = BigInt(web3.utils.toWei("2", "Gwei"));
+    const maxFeePerGas = baseFee + maxPriorityFee;
+    const txData = loyaltyToken.methods.calculateReward(recipient, purchaseAmountBN.toString()).send({ from: adminAddress});
+    
+    const nonce = await web3.eth.getTransactionCount(adminAddress, "pending");
+    const gas = await loyaltyToken.methods.calculateReward(recipient, purchaseAmountBN).estimateGas({
+      from: adminAddress
+    });
+
+    const tx = {
+      from: adminAddress,
+      to: contractAddress,
+      maxPriorityFeePerGas: maxPriorityFee.toString(),
+      maxFeePerGas: maxFeePerGas.toString(),
+      gas: gas.toString(),
+      data: txData,
+      nonce: nonce.toString()
+    };
+
+    console.log("Transaction data: ", {
+      recipient,
+      purchaseAmountBN: purchaseAmountBN.toString(),
+      gas: gas.toString(),
+      txData: txData
+    });
+
+    const signedTx = await web3.eth.accounts.signTransaction(tx, adminPrivateKey);
+
+    // Send the transaction
+    const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+
+    return res.status(200).json({
+      success: true,
+      message: "Reward calculation prepared",
+      transactionHash : receipt.transactionHash,
+    });
+  } catch (error) {
+    console.error("Error calculating rewards:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to calculate rewards"
+    });
+  }
+});
+
+router.post("/applyDiscount", async(req,res) => {
+  const { walletAddress } = req.body;
+
+  if(!walletAddress) {
+    console.error("Wallet Address is required");
+  }
+  const user = await User.findOne({ walletAddress });
+
+  if(!user){ 
+    return res.status(404).json({
+      success: false,
+      message: "User not found"
+    });
+  }
+  if(user.hasAppliedDiscount){
+    return res.status(400).json({ success: false, message: "Discount already applied. "});
+  }
+
+  user.hasAppliedDiscount = true;
+  await user.save();
+
+  return res.status(200).json({
+    success: true,
+    message: "Discount applied successfully."
+  });
+})
+
+router.post("/resetDiscount", async( req, res) => {
+  const { walletAddress } = req.body;
+  const user = await User.findOne({ walletAddress });
+
+  if(!user){
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+
+  user.hasAppliedDiscount = false;
+  await user.save();
+
+  return res.status(200).json({ success: true, message: "Discount status reset successfully."})
+});
+
+router.get("/discountStatus", async(req,res) => {
+  const { walletAddress } = req.query;
+
+  try {
+    if(!walletAddress){
+      return res.status(400).json({
+        success: false,
+        message: "Wallet address required"
+      })
+    }
+
+    const user = await User.findOne({ walletAddress });
+
+    if(!user){
+      return res.status(404).json({
+        success: false,
+        message: "user not found"
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      hasAppliedDiscount: user.hasAppliedDiscount,
+      message: "Discount status retrieved successfully."
+    })
+  } catch (error) {
+    console.error("Error checking discount status:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error checking discount status",
+      error: error.message
+    })
+  }
+})
+// async (req, res) => {
+//   const adminAddress = process.env.ADMIN_WALLET_ADDRESS;
+//   const privateKey = process.env.ADMIN_PRIVATE_KEY;
+//   const contractAddress = process.env.CONTRACT_ADDRESS;
+//   const { address, tokensToBurn } = req.body;
+
+//   if (!address || !tokensToBurn || tokensToBurn <= 0) {
+//     return res.status(400).json({ message: "Invalid input data" });
+//   }
+
 //   try {
-//     const { address, tokensToDeduct } = req.body;
-
-//     if (!address || !tokensToDeduct) {
-//       return res.status(400).json({ success: false, error: "Invalid data" });
+//     const balance = await loyaltyToken.methods.balanceOf(address).call();
+//     if (BigInt(balance) < BigInt(tokensToBurn)) {
+//       return res.status(400).json({ message: "Insufficient token balance." });
 //     }
 
-//     const currentBalance = await loyaltyToken.methods.balanceOf(address).call();
+//     const txData = loyaltyToken.methods.burnFrom(address, tokensToBurn).encodeABI();
 
-//     const updatedBalance = BigInt(currentBalance) - BigInt(tokensToDeduct * 1e18);
+//     const nonce = await web3.eth.getTransactionCount(adminAddress, "latest");
 
-//     if (updatedBalance < 0n) {
-//       return res.status(400).json({ success: false, error: "Insufficient tokens" });
-//     }
+//     const gasEstimate = await loyaltyToken.methods.burnFrom(address, tokensToBurn).estimateGas({
+//       from: adminAddress,
+//     });
 
-//     await loyaltyToken.methods.burn(address, tokensToDeduct * 1e18).send({ from: process.env.OWNER_WALLET, gas: 3000000 });
+//     const gasPrice = await web3.eth.getGasPrice();
 
-//     return res.json({ success: true, message: "Token balance updated successfully" });
+//     const tx = {
+//       from: adminAddress,
+//       to: contractAddress,
+//       gas: gasEstimate,
+//       gasPrice: gasPrice,
+//       data: txData,
+//       nonce: nonce,
+//     };
+
+  
+//     const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
+
+//     const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+
+//     res.status(200).json({
+//       message: "Tokens burned successfully",
+//       transactionHash: receipt.transactionHash,
+//     });
 //   } catch (error) {
-//     console.error("Error updating token balance:", error);
-//     return res.status(500).json({ success: false, error: "Internal server error" });
+//     console.error("Errors burning tokens:", error);
+
+//     if (error.receipt) {
+//       res.status(500).json({
+//         message: "Transaction failed",
+//         receipt: error.receipt,
+//         error: error.message,
+//       });
+//     } else {
+//       res.status(500).json({
+//         message: "Failed to burn tokens",
+//         error: error.message,
+//       });
+//     }
 //   }
 // });
-
 
 
 export default router;
