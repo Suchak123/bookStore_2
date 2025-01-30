@@ -1,5 +1,5 @@
 const REWARD_BASE = 100;
-const REWARD_RATE = 10;
+// const REWARD_RATE = 10;
 
 const calculateReward = (cart) => {
 

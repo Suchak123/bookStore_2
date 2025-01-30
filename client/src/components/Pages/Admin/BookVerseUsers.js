@@ -61,7 +61,7 @@ const StarsHollowUsers = () => {
           </div>
           <div className="w-full md:w-3/4">
             <h1 className="londrina-color text-center text-2xl font-bold mb-6">
-              All Stars Hollow Users
+              All Users
             </h1>
             <div className="overflow-x-auto mx-10">
               <Table dataSource={users} columns={columns} pagination={false} />

@@ -5,7 +5,6 @@ import LoyaltyTokenABI from '../abis/LoyaltyToken.json' assert { type: "json" };
 
 dotenv.config();
 
-
 const web3 = new Web3("https://eth-sepolia.g.alchemy.com/v2/LBUArw0Kxp7RZD3KDiHwmt1g42LstQ4y");
 
 const contractAddress1 = process.env.CONTRACT1_ADDRESS;

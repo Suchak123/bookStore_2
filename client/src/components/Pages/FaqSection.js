@@ -3,7 +3,7 @@ import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const FaqSection = () => {
-  const [selected, setSelected] = useState(null);
+const [selected, setSelected] = useState(null);
 
   const faqItems = [
     {
